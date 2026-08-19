@@ -160,6 +160,7 @@ button { cursor: pointer; border: none; background: none; }
 
 .viewport {
   flex: 1 1 auto;
+  min-height: 0;              /* without this a flex child won't shrink, so it never scrolls */
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -575,15 +576,38 @@ p { margin: 0; }
 .fac .full { grid-column: 1 / -1; }
 
 /* phone-width: drop the bezel, go full bleed */
+/* Phone width: drop the bezel and behave like a real app — the screen is
+   pinned to the visible viewport and only .viewport scrolls, so the tab bar
+   stays put and long screens can always be reached. */
 @media (max-width: 520px) {
-  body { background: var(--cream); }
+  html { height: 100%; }
+  body {
+    background: var(--cream);
+    height: 100vh;
+    height: 100dvh;          /* dvh tracks the shrinking address bar on phones */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;        /* the page itself never scrolls; .viewport does */
+  }
+  #sim { flex: 0 0 auto; }
   .device {
-    border: none; border-radius: 0; height: auto;
-    max-height: none; min-height: calc(100vh - 96px);
-    margin-bottom: 0; box-shadow: none;
+    flex: 1 1 auto;
+    min-height: 0;           /* lets the frame shrink so its inner scroller engages */
+    height: auto;
+    max-height: none;
+    border: none; border-radius: 0;
+    margin: 0; box-shadow: none;
   }
   .sim { margin: 0; border-radius: 0; border-left: none; border-right: none; border-top: none; }
-  .fac { padding: .8rem; }
+  /* empty in tester mode — must not steal screen height from the app */
+  .fac {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+    max-height: 42vh;
+    overflow-y: auto;
+  }
+  .fac:not(:empty) { padding: .8rem; }
 }
 </style>
 </head>

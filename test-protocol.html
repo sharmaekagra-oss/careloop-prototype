@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CareLoop — User Test Protocol</title>
+<style>
+:root {
+  --teal:#1F5C52; --teal-deep:#14403A; --teal-soft:#E4EFED;
+  --marigold:#F2A93B; --marigold-soft:#FDF0D9; --marigold-ink:#7E520A;
+  --terracotta:#D9714E; --terracotta-soft:#FBE5DC; --terracotta-ink:#8A3719;
+  --ground:#FBF7F0; --surface:#FFFFFF;
+  --ink:#222E2A; --ink-soft:#57655F; --ink-faint:#8A9591;
+  --line:#E6DCCC; --line-soft:#F2EADD;
+  --font-display:"Baloo 2",Nunito,"Segoe UI Rounded","SF Pro Rounded",ui-rounded,"Trebuchet MS",system-ui,sans-serif;
+  --font-body:Poppins,"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#141A18; --surface:#1C2523;
+    --ink:#E8EFEC; --ink-soft:#A9B8B3; --ink-faint:#7C8A85;
+    --line:#2E3B38; --line-soft:#25302D;
+    --teal-soft:#1B3833; --marigold-soft:#3A2E15; --marigold-ink:#F0B65A;
+    --terracotta-soft:#3B241C; --terracotta-ink:#EE9877;
+    --teal:#6FBBAA; --teal-deep:#8FD3C3;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#141A18; --surface:#1C2523;
+  --ink:#E8EFEC; --ink-soft:#A9B8B3; --ink-faint:#7C8A85;
+  --line:#2E3B38; --line-soft:#25302D;
+  --teal-soft:#1B3833; --marigold-soft:#3A2E15; --marigold-ink:#F0B65A;
+  --terracotta-soft:#3B241C; --terracotta-ink:#EE9877;
+  --teal:#6FBBAA; --teal-deep:#8FD3C3;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--font-body); font-size:16.5px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:760px; margin:0 auto; padding:2.4rem 1.25rem 4rem}
+
+h1,h2,h3,h4{font-family:var(--font-display); color:var(--teal-deep); margin:0; text-wrap:balance; line-height:1.2}
+h1{font-size:2.15rem; font-weight:800}
+h2{font-size:1.4rem; font-weight:700}
+h3{font-size:1.06rem; font-weight:700}
+p{margin:0}
+a{color:var(--teal)}
+
+.stack{display:flex; flex-direction:column}
+.g-xs{gap:.4rem} .g-sm{gap:.7rem} .g-md{gap:1.1rem} .g-lg{gap:1.7rem} .g-xl{gap:2.6rem}
+
+.eyebrow{
+  font-size:.7rem; font-weight:700; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink-faint);
+}
+.lede{font-size:1.06rem; color:var(--ink-soft)}
+.muted{color:var(--ink-soft); font-size:.94rem}
+.tiny{font-size:.83rem; color:var(--ink-faint)}
+
+header.doc{
+  border-bottom:3px solid var(--teal); padding-bottom:1.3rem; margin-bottom:2.2rem;
+}
+.badge-row{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.9rem}
+.badge{
+  font-size:.76rem; font-weight:600; padding:.3em .75em; border-radius:999px;
+  background:var(--teal-soft); color:var(--teal-deep);
+}
+
+section{scroll-margin-top:1rem}
+h2.sec{
+  display:flex; align-items:baseline; gap:.6rem;
+  padding-bottom:.5rem; border-bottom:1px solid var(--line); margin-bottom:1.1rem;
+}
+h2.sec .n{
+  font-size:.85rem; font-weight:700; color:var(--marigold-ink);
+  background:var(--marigold-soft); border-radius:6px; padding:.15em .5em;
+  font-family:var(--font-body);
+}
+
+.card{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:14px; padding:1.1rem 1.15rem;
+}
+
+/* the four instruction roles */
+.say, .watch, .probe, .dont{
+  border-left:4px solid; border-radius:0 10px 10px 0;
+  padding:.85rem 1rem; background:var(--surface);
+}
+.say{border-color:var(--marigold); background:var(--marigold-soft)}
+.say p{font-size:1rem}
+.say .who{font-size:.7rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:var(--marigold-ink); display:block; margin-bottom:.3rem}
+.watch{border-color:var(--teal); background:var(--teal-soft)}
+.watch .who{font-size:.7rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:var(--teal); display:block; margin-bottom:.3rem}
+.probe{border-color:var(--line); background:var(--surface)}
+.probe .who{font-size:.7rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-faint); display:block; margin-bottom:.35rem}
+.dont{border-color:var(--terracotta); background:var(--terracotta-soft)}
+.dont .who{font-size:.7rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:var(--terracotta-ink); display:block; margin-bottom:.3rem}
+.dont p, .dont li{color:var(--terracotta-ink)}
+
+ul,ol{margin:0; padding-left:1.15rem}
+li{margin:.3rem 0}
+ul.tight li{margin:.18rem 0}
+
+.task{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:16px; padding:1.2rem 1.2rem 1.3rem;
+}
+.task-head{display:flex; gap:.75rem; align-items:flex-start; margin-bottom:.3rem}
+.task-num{
+  flex:0 0 auto; width:30px; height:30px; border-radius:9px;
+  background:var(--teal); color:#fff; display:grid; place-items:center;
+  font-family:var(--font-display); font-weight:700; font-size:1rem;
+}
+.task-min{margin-left:auto; font-size:.78rem; color:var(--ink-faint); white-space:nowrap; padding-top:.35rem}
+
+table{width:100%; border-collapse:collapse; font-size:.92rem}
+th{
+  text-align:left; font-size:.72rem; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--ink-faint); padding:0 .5rem .5rem 0; font-weight:700;
+}
+td{padding:.55rem .5rem .55rem 0; border-top:1px solid var(--line-soft); vertical-align:top}
+.tbl-wrap{overflow-x:auto}
+
+.q{
+  display:flex; gap:.6rem; padding:.5rem 0; border-bottom:1px dashed var(--line);
+}
+.q:last-child{border-bottom:none}
+.q .qn{font-weight:700; color:var(--teal); flex:0 0 auto; font-variant-numeric:tabular-nums}
+
+.rule{height:1px; background:var(--line); border:none; margin:0}
+
+.capture{
+  border:1.5px dashed var(--line); border-radius:12px; padding:1rem;
+  background:transparent;
+}
+.blank{border-bottom:1px solid var(--line); min-height:1.6em; margin:.5rem 0}
+
+footer.doc{
+  margin-top:3rem; padding-top:1.2rem; border-top:1px solid var(--line);
+  color:var(--ink-faint); font-size:.85rem;
+}
+
+@media print{
+  :root{--ground:#fff; --surface:#fff; --ink:#000; --ink-soft:#333; --line:#bbb}
+  body{font-size:11pt}
+  .wrap{max-width:none; padding:0}
+  .task, .card{break-inside:avoid; page-break-inside:avoid}
+  section{break-inside:auto}
+  h2.sec{break-after:avoid}
+  footer.doc{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <div class="eyebrow">CareLoop · Team 7 · MICA Design Sprint Studio</div>
+  <h1>User Test Protocol</h1>
+  <p class="lede" style="margin-top:.5rem">A moderator's script for testing the CareLoop prototype with people who actually live with a chronic condition.</p>
+  <div class="badge-row">
+    <span class="badge">5–6 sessions</span>
+    <span class="badge">~40 minutes each</span>
+    <span class="badge">In person preferred</span>
+    <span class="badge">2 people per session</span>
+  </div>
+</header>
+
+<div class="stack g-xl">
+
+<!-- ============================ -->
+<section>
+  <h2 class="sec"><span class="n">1</span> Who to recruit</h2>
+  <div class="stack g-md">
+    <p>The prototype puts one bet at risk above all others: that <strong>a quiet app reads as trustworthy rather than broken</strong>. Whether that holds depends entirely on who is holding the phone. A 22-year-old will tell you the interface is clear. That is not the question.</p>
+
+    <div class="dont">
+      <span class="who">The trap</span>
+      <p>Do not test with classmates. Every finding will be about usability and none will be about whether the design works for someone managing their own health. Three of the right people beat ten of the convenient ones.</p>
+    </div>
+
+    <div class="card stack g-sm">
+      <h3>Recruit 5–6 people, mostly from group A</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Group</th><th>Who</th><th>How many</th></tr></thead>
+          <tbody>
+            <tr><td><strong>A — Primary</strong></td><td>45+, taking daily medication for a long-term condition (BP, diabetes, thyroid, cholesterol, heart)</td><td>3–4</td></tr>
+            <tr><td><strong>B — Caregiver</strong></td><td>Helps a parent or spouse manage medicines, often from another city</td><td>1–2</td></tr>
+            <tr><td><strong>C — Gold dust</strong></td><td>Anyone who has <em>stopped a course of medicine early because they felt better</em></td><td>1 if you can find them</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tiny">Parents, grandparents, aunts and uncles, neighbours, a family friend, the person at the local chemist's who knows their regulars. Group C is the direct test of the self-stopping design — Prof. Diwedi's parents are the archetype.</p>
+    </div>
+
+    <div class="card stack g-sm">
+      <h3>Screening questions</h3>
+      <p class="muted">Ask before booking. Two minutes on the phone.</p>
+      <div class="stack g-xs">
+        <div class="q"><span class="qn">1</span><span>Do you take any medicine every day, or most days?</span></div>
+        <div class="q"><span class="qn">2</span><span>Roughly how long have you been taking it?  <span class="tiny">(Want: 6 months or more — long enough for the routine to have gone stale)</span></span></div>
+        <div class="q"><span class="qn">3</span><span>Do you use a smartphone yourself, or does someone usually help you with it?  <span class="tiny">(Both are fine and useful — note which)</span></span></div>
+        <div class="q"><span class="qn">4</span><span>Has there ever been a stretch where you stopped taking it, or missed it often?  <span class="tiny">(Don't push; just note)</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<section>
+  <h2 class="sec"><span class="n">2</span> Before the session</h2>
+  <div class="stack g-md">
+    <div class="card stack g-sm">
+      <h3>Set-up checklist</h3>
+      <ul class="tight">
+        <li>Open <strong>the plain URL</strong> on the device the participant will hold — never the <code>#facilitator</code> one</li>
+        <li><strong>Sound on</strong>, volume up. The check-in call speaks aloud and it is the centrepiece</li>
+        <li>Confirm the app is at the very first screen. If not: <em>Settings → Start the test over</em></li>
+        <li>Test the voice once yourself on <em>that exact device</em> — voices differ by phone and some have no Indian English voice</li>
+        <li>Two of you: one moderates and says everything, one takes notes and says nothing</li>
+        <li>Phone in <em>their</em> hands, not yours. Resist reaching for it</li>
+      </ul>
+    </div>
+
+    <div class="card stack g-sm">
+      <h3>Roles</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Role</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Moderator</strong></td><td>Reads the script, sets tasks, asks probes, controls the simulation rail when the script says to</td></tr>
+            <tr><td><strong>Note-taker</strong></td><td>Fills the capture sheet, writes verbatim quotes, records timestamps of hesitation. Does not talk, does not help</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="say">
+      <span class="who">Consent — say this, out loud, every time</span>
+      <p>“Before we start — this is a class project, not a real medical product. I'll be taking notes on what you do and say, but not your name or anything about your own health records. Nothing is recorded unless you say it's alright. You can stop at any point, and you can skip any question. Is that alright with you?”</p>
+      <p style="margin-top:.5rem"><em>If recording audio, ask separately and get a clear yes.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<section>
+  <h2 class="sec"><span class="n">3</span> Warm-up — 5 minutes</h2>
+  <div class="stack g-md">
+    <p class="muted">Do this <strong>before</strong> they see the app. You are capturing their real current behaviour, which becomes the yardstick for everything after.</p>
+
+    <div class="say">
+      <span class="who">Say</span>
+      <p>“Before I show you anything — tell me about your medicines. What do you take, and when?”</p>
+    </div>
+
+    <div class="probe">
+      <span class="who">Then</span>
+      <ul class="tight">
+        <li>“Walk me through yesterday. When did you take it?”</li>
+        <li>“What helps you remember?” <span class="tiny">(pill box, family, habit, alarm, nothing)</span></li>
+        <li>“When did you last miss one? What happened?”</li>
+        <li>“Does anyone else keep an eye on it?”</li>
+        <li>“Have you ever stopped taking something before the doctor said to?” <span class="tiny">— the key one; ask gently, don't judge</span></li>
+      </ul>
+    </div>
+
+    <div class="watch">
+      <span class="who">Write down</span>
+      <p>Their exact words for the medicines. Who they name as a helper. Whether missing a dose registers as a real event or a shrug. You will reuse all of this in the probes later.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<section>
+  <h2 class="sec"><span class="n">4</span> The tasks</h2>
+  <div class="stack g-md">
+
+    <div class="dont">
+      <span class="who">Rules for the whole section</span>
+      <ul class="tight">
+        <li><strong>Do not demo.</strong> Hand it over and let them drive.</li>
+        <li><strong>Do not explain.</strong> If they are confused, that is the finding — write it down instead of rescuing them. Wait a full ten seconds before helping.</li>
+        <li><strong>Do not say “tiers”, “green”, “red”, or “AI”</strong> until they do. Whether the system explains itself is precisely what you are testing.</li>
+        <li><strong>Never ask “would you use this?”</strong> Everyone says yes. It tells you nothing.</li>
+      </ul>
+    </div>
+
+    <div class="say">
+      <span class="who">Hand-over — say</span>
+      <p>“This is a rough prototype, so some parts are half-built. You can't break it, and if something is confusing that's the app's fault, not yours — those are exactly the bits I need to hear about. Please think aloud as you go: tell me what you're looking at and what you expect to happen.”</p>
+    </div>
+
+    <hr class="rule" />
+
+    <!-- TASK 1 -->
+    <div class="task">
+      <div class="task-head">
+        <span class="task-num">1</span>
+        <div><h3>Getting set up</h3><p class="tiny">Onboarding · does the consent screen register?</p></div>
+        <span class="task-min">6 min</span>
+      </div>
+      <div class="stack g-sm" style="margin-top:.6rem">
+        <div class="say"><span class="who">Say</span><p>“Imagine you've just come out of an appointment. The clinic has set this up for you on your phone. Go ahead and get yourself set up.”</p></div>
+        <div class="watch">
+          <span class="who">Watch for</span>
+          <ul class="tight">
+            <li>Do they <em>read</em> the voice-choice screen or tap past it? Do they play the sample?</li>
+            <li>At the sharing screen — do they notice the toggles at all? Do they change any?</li>
+            <li>Any hesitation about naming a family member</li>
+          </ul>
+        </div>
+        <div class="probe">
+          <span class="who">Probe after</span>
+          <ul class="tight">
+            <li>“What did that last screen say would be shared?” <span class="tiny">— tests whether consent was understood or clicked through</span></li>
+            <li>“Who would you actually put down there, in real life?”</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 2 -->
+    <div class="task">
+      <div class="task-head">
+        <span class="task-num">2</span>
+        <div><h3>A normal day</h3><p class="tiny">The silence bet — the single riskiest assumption</p></div>
+        <span class="task-min">7 min</span>
+      </div>
+      <div class="stack g-sm" style="margin-top:.6rem">
+        <div class="say"><span class="who">Say</span><p>“Now you're at home and the day is starting. Use it as you normally would. I'll move the clock forward for you.”</p></div>
+        <p class="muted">Advance with <strong>Skip to next moment</strong>. Let them mark doses. Keep them on track so the app stays quiet — that is the point of this task.</p>
+        <div class="watch">
+          <span class="who">Watch for</span>
+          <ul class="tight">
+            <li>Do they notice that <strong>nothing notified them</strong>?</li>
+            <li>Do they open the app unprompted, or wait to be told?</li>
+            <li>Does the status panel at the top get read, or ignored as decoration?</li>
+          </ul>
+        </div>
+        <div class="probe">
+          <span class="who">Probe after — the money questions</span>
+          <ul class="tight">
+            <li>“Did the app remind you to take anything today?”</li>
+            <li>“It stayed quiet the whole morning. How does that sit with you?”</li>
+            <li>“Would you have wanted it to say something? What, and when?”</li>
+            <li>“If it stayed that quiet for a week, what would you think was going on?” <span class="tiny">— listens for “it's broken” vs “it trusts me”</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 3 -->
+    <div class="task">
+      <div class="task-head">
+        <span class="task-num">3</span>
+        <div><h3>The call</h3><p class="tiny">Care or surveillance? Tests the caregiver-boundary assumption</p></div>
+        <span class="task-min">8 min</span>
+      </div>
+      <div class="stack g-sm" style="margin-top:.6rem">
+        <div class="say"><span class="who">Say</span><p>“This time, you've had a busy morning and haven't got to your tablets. Just carry on without taking them.”</p></div>
+        <p class="muted">Advance until the gentle nudge appears, then keep going until the call comes. <strong>Let the voice finish speaking</strong> — do not talk over it, however awkward the pause feels.</p>
+        <div class="watch">
+          <span class="who">Watch for</span>
+          <ul class="tight">
+            <li>Their face and body the moment the call arrives. Note it before they say anything</li>
+            <li>Do they realise it is automated? Do they say so unprompted?</li>
+            <li>Which button they reach for, and how long they take</li>
+          </ul>
+        </div>
+        <div class="probe">
+          <span class="who">Probe — hardest questions in the session</span>
+          <ul class="tight">
+            <li>“Tell me what just happened.”</li>
+            <li>“How did that feel?” <span class="tiny">— then stay silent. Let them fill it</span></li>
+            <li>“Who did you think was calling?”</li>
+            <li>“Would you want that call at home? What about if someone else was in the room?”</li>
+            <li>“Is there a time of day that would be wrong for this?”</li>
+            <li>Then let them answer <em>No, not yet</em>, and ask: <strong>“Your daughter has now been told. How do you feel about that?”</strong></li>
+          </ul>
+        </div>
+        <div class="dont"><span class="who">Careful</span><p>This is where the design is most likely to fail, and where people are most likely to be polite about it. Push past the first “it's nice.” Ask “what would your husband have said if he'd heard it?”</p></div>
+      </div>
+    </div>
+
+    <!-- TASK 4 -->
+    <div class="task">
+      <div class="task-head">
+        <span class="task-num">4</span>
+        <div><h3>“I feel fine now”</h3><p class="tiny">The self-stopping path — does an explanation beat a reminder?</p></div>
+        <span class="task-min">7 min</span>
+      </div>
+      <div class="stack g-sm" style="margin-top:.6rem">
+        <div class="say"><span class="who">Say</span><p>“Now imagine a few weeks have gone by. You feel completely well — no symptoms at all. You're starting to wonder whether you still need these tablets. Show me what you'd do.”</p></div>
+        <p class="muted">If they don't find it, steer only as far as: “what would you tap if you weren't going to take it?” Then let them choose their own reason.</p>
+        <div class="watch">
+          <span class="who">Watch for</span>
+          <ul class="tight">
+            <li>Which reason they pick without prompting</li>
+            <li>Do they <em>read</em> the explanation, or skim and dismiss?</li>
+            <li>Do they use “Hear this”?</li>
+            <li>Which button they end on — and how long they hover first</li>
+          </ul>
+        </div>
+        <div class="probe">
+          <span class="who">Probe after</span>
+          <ul class="tight">
+            <li>“In your own words, what did that just tell you?” <span class="tiny">— tests comprehension, not satisfaction</span></li>
+            <li>“Did that change your mind, honestly?”</li>
+            <li>“Has anything like this happened to you or someone in your family?”</li>
+            <li>“Who would you actually believe about this — an app, your doctor, or your family?”</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 5 -->
+    <div class="task">
+      <div class="task-head">
+        <span class="task-num">5</span>
+        <div><h3>The comparison</h3><p class="tiny">Counterbalance the order — see the note below</p></div>
+        <span class="task-min">6 min</span>
+      </div>
+      <div class="stack g-sm" style="margin-top:.6rem">
+        <p class="muted">Reset the app, switch the mode in the simulation rail, and replay <strong>the same day</strong> in the other style.</p>
+        <div class="say"><span class="who">Say</span><p>“Here's a different version of the same app, on the same day. Same tablets, same times. Tell me what you notice.”</p></div>
+        <div class="card stack g-xs" style="background:var(--marigold-soft); border-color:var(--marigold)">
+          <h3 style="color:var(--marigold-ink)">Alternate the order between participants</h3>
+          <p style="color:var(--marigold-ink); font-size:.92rem">Participants 1, 3, 5 → quiet version first. Participants 2, 4, 6 → the noisy one first. Whichever comes second tends to win on novelty alone; alternating cancels that out. <strong>Write down which order you used.</strong></p>
+        </div>
+        <div class="probe">
+          <span class="who">Probe after</span>
+          <ul class="tight">
+            <li>“What was different between the two?”</li>
+            <li>“Which one would you want on your own phone? Why?”</li>
+            <li>“Think a month ahead, not today. Which one are you still opening?”</li>
+            <li>“Was there a point where the second one started to annoy you? When?”</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 6 -->
+    <div class="task">
+      <div class="task-head">
+        <span class="task-num">6</span>
+        <div><h3>Running out</h3><p class="tiny">Refill and records — lighter, only if time allows</p></div>
+        <span class="task-min">4 min</span>
+      </div>
+      <div class="stack g-sm" style="margin-top:.6rem">
+        <div class="say"><span class="who">Say</span><p>“You want to check whether you have enough tablets to last the week. Have a look.”</p></div>
+        <div class="probe">
+          <span class="who">Probe</span>
+          <ul class="tight">
+            <li>“How do you keep track of running out at the moment?”</li>
+            <li>“When would you want to be told — how many days before?”</li>
+            <li>Then, on the health file: “Your doctor asks for last month's report. Show me what you'd do.”</li>
+            <li>“Would you be comfortable sharing that with a chemist? With a doctor you'd never met?”</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================ -->
+<section>
+  <h2 class="sec"><span class="n">5</span> Closing — 4 minutes</h2>
+  <div class="stack g-md">
+    <div class="probe">
+      <span class="who">Ask, in this order</span>
+      <div class="stack g-xs">
+        <div class="q"><span class="qn">1</span><span>“What's the one thing you'd change?”</span></div>
+        <div class="q"><span class="qn">2</span><span>“Was there any moment that felt uncomfortable, or like too much?”</span></div>
+        <div class="q"><span class="qn">3</span><span>“Who else in your family would this be for — you, or someone you look after?”</span></div>
+        <div class="q"><span class="qn">4</span><span>“If your clinic handed you this tomorrow, what would you want to ask them first?”</span></div>
+        <div class="q"><span class="qn">5</span><span>“Anything you expected to find and didn't?”</span></div>
+      </div>
+    </div>
+    <div class="say"><span class="who">Close with</span><p>“That's everything — this was genuinely useful. Thank you.”</p></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<section>
+  <h2 class="sec"><span class="n">6</span> Capture sheet</h2>
+  <div class="stack g-md">
+    <p class="muted">One per participant, filled by the note-taker <em>during</em> the session. Write what happened, not what you concluded — interpretation comes later, together.</p>
+    <div class="capture stack g-sm">
+      <div class="tbl-wrap">
+        <table>
+          <tbody>
+            <tr><td style="width:42%"><strong>Participant #</strong> / age / condition</td><td class="blank"></td></tr>
+            <tr><td><strong>Group</strong> (A / B / C)</td><td class="blank"></td></tr>
+            <tr><td><strong>Comparison order</strong> (quiet-first / noisy-first)</td><td class="blank"></td></tr>
+            <tr><td><strong>Device &amp; voice used</strong></td><td class="blank"></td></tr>
+            <tr><td><strong>Currently remembers doses by…</strong></td><td class="blank"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <hr class="rule" />
+      <div class="stack g-xs">
+        <p class="eyebrow">Reaction to the silence (task 2)</p><div class="blank"></div>
+        <p class="eyebrow">Reaction to the call — face first, words second (task 3)</p><div class="blank"></div><div class="blank"></div>
+        <p class="eyebrow">Did the explanation change their mind? (task 4)</p><div class="blank"></div>
+        <p class="eyebrow">Which version they chose, and the reason they gave (task 5)</p><div class="blank"></div>
+        <p class="eyebrow">Every point where they got stuck, with what they said</p><div class="blank"></div><div class="blank"></div>
+        <p class="eyebrow">Best verbatim quote of the session</p><div class="blank"></div><div class="blank"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<section>
+  <h2 class="sec"><span class="n">7</span> What each task is actually testing</h2>
+  <div class="stack g-md">
+    <p class="muted">Keep this out of sight during the session. Use it when you synthesise — and put it in the writeup, because it shows the tests were designed against your assumptions rather than fitted to the results afterwards.</p>
+    <div class="tbl-wrap card">
+      <table>
+        <thead><tr><th>Assumption</th><th>Source</th><th>Tested by</th></tr></thead>
+        <tbody>
+          <tr><td>Staying silent reads as trust, not as a broken app</td><td>Sprint solution — the green tier</td><td>Task 2</td></tr>
+          <tr><td>An automated call feels caring, and disclosing it is AI resolves the boundary problem</td><td>Sprint solution §4.2 / §6</td><td>Task 3</td></tr>
+          <tr><td>Explaining beats reminding when someone has decided to stop</td><td>Prof. Diwedi's parents</td><td>Task 4</td></tr>
+          <tr><td>Fewer notifications wins over nudging harder</td><td>Brief's open-rate data <em>vs</em> Dr. Panda's “counter the laziness”</td><td>Task 5</td></tr>
+          <tr><td>Patients want warning before medicines run out</td><td>Dr. Panda</td><td>Task 6</td></tr>
+          <tr><td>Consent is read and understood, not clicked past</td><td>Brief — privacy constraint</td><td>Task 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<section>
+  <h2 class="sec"><span class="n">8</span> After each session, and after all of them</h2>
+  <div class="stack g-md">
+    <div class="card stack g-sm">
+      <h3>Within ten minutes of the participant leaving</h3>
+      <p class="muted">Memory decays faster than you think. The two of you, out loud, five minutes:</p>
+      <ul class="tight">
+        <li>What surprised us?</li>
+        <li>What did they do that contradicted what they said?</li>
+        <li>One sentence: what would this person want us to change?</li>
+      </ul>
+    </div>
+    <div class="card stack g-sm">
+      <h3>Once all sessions are done</h3>
+      <ul class="tight">
+        <li>One observation per sticky note, participant number on each. Cluster by <em>what happened</em>, not by feature</li>
+        <li>A pattern needs <strong>three or more participants</strong>. Two is a hunch. One is a story — useful for the writeup, not for a decision</li>
+        <li>Split findings into <strong>the design is wrong</strong> versus <strong>the prototype is rough</strong>. Only the first should change the concept</li>
+        <li>Update the evidence-vs-assumption table: move what you confirmed into evidence, and be honest about what stayed an assumption</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <span class="who">Watch yourselves for</span>
+      <ul class="tight">
+        <li>Counting polite enthusiasm as validation. “This is nice” is not a finding</li>
+        <li>Explaining away the moments people struggled — those are the results</li>
+        <li>Only recording what supports the design you already built</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="doc">
+  CareLoop user test protocol · Team 7 — Krishie, Rik, Ekagra, Pankhuri, Mrigank · MICA Design Sprint Studio<br />
+  Prototype: careloop-prototype-m.vercel.app · facilitator view: add <code>#facilitator</code>
+</footer>
+
+</div>
+</body>
+</html>
