@@ -757,6 +757,23 @@ function processMoment(){
     if(S.min>=due+GRACE && st==="pending" && S.seen[k]){ S.log[k]="missed"; onMiss(p.slot); }
   }
 }
+/* Nobody picked up. That is a real outcome in the design, not a stuck state:
+   an unanswered check-in escalates to the caregiver exactly like a declined one. */
+function callUnanswered(){
+  if(!S.call) return;
+  var p=slotOf(S.call.slot);
+  S.call=null;
+  if(!p) return;
+  logEvent("no-answer","No answer on the check-in call — "+S.profile.caregiver+" notified");
+  S.alerts.unshift({ id:uid(), kind:"missed",
+    text:S.profile.name+" didn't answer the check-in call about her "+medLabel(p)+" dose.",
+    day:S.day, min:S.min, done:false });
+  if(S.profile.share.alerts){
+    notify({ title:S.profile.name+" didn't answer", body:"The check-in call about her "+med(p.medId).name+" went unanswered.",
+             kind:"crit", to:"caregiver" });
+  }
+}
+
 function rollDay(){ S.streak=0; if(S.tier!=="red") setTier("green"); logEvent("day","A new day begins"); }
 function step(mins){
   var left=mins, guard=0;
@@ -764,7 +781,11 @@ function step(mins){
     var c=Math.min(15,left); S.min+=c; left-=c;
     if(S.min>=1440){ S.min-=1440; S.day++; rollDay(); }
     processMoment();
-    if(S.call) break;
+    if(S.call){
+      /* only Radha can answer — for anyone else the call simply goes unanswered */
+      if(role()==="patient") break;
+      callUnanswered();
+    }
   }
   save(); render();
 }
@@ -1568,6 +1589,9 @@ function phoneHeader(){
 function overlays(){
   var o=document.getElementById("overlay");
   if(!o) return;
+  /* the call and the "why not?" sheets happen on Radha's phone only —
+     nobody else should see them, let alone be able to answer for her */
+  if(role()!=="patient"){ o.className="layer-overlay"; o.innerHTML=""; return; }
   if(S.call){
     var p=slotOf(S.call.slot);
     o.className="layer-overlay on";
