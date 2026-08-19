@@ -2158,7 +2158,9 @@ document.addEventListener("click", function (ev) {
   }
 });
 
-window.addEventListener("hashchange", function () { facPanel(); });
+/* Full re-render, not just the panel — the role switcher lives inside the view,
+   so typing #facilitator onto a running session must rebuild everything. */
+window.addEventListener("hashchange", function () { render(); });
 
 /* ============================================================
    10. Boot
