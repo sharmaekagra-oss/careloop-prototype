@@ -426,6 +426,68 @@ p { margin: 0; }
 @keyframes wv { 0%,100%{height:25%} 50%{height:100%} }
 .call-acts { width: 100%; display: flex; flex-direction: column; gap: .55rem; margin-top: auto; }
 
+/* ---------- bottom sheet (reason picker / explanation) ---------- */
+
+.sheet-wrap {
+  position: absolute; inset: 0;
+  background: rgba(20,32,29,.5);
+  display: flex; align-items: flex-end;
+}
+.sheet {
+  background: var(--cream);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  padding: 1.2rem 1.1rem 1.3rem;
+  width: 100%;
+  max-height: 92%;
+  overflow-y: auto;
+  animation: rise .26s cubic-bezier(.2,.9,.3,1.05);
+}
+@keyframes rise { from { transform: translateY(30px); opacity: .6; } to { transform: none; opacity: 1; } }
+.sheet h2 { margin-bottom: .3rem; }
+.sheet-opts { display: flex; flex-direction: column; gap: .5rem; margin-top: 1rem; }
+.sheet-opt {
+  display: flex; gap: .7rem; align-items: flex-start; text-align: left;
+  background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: var(--r-md); padding: .85rem .9rem; width: 100%;
+}
+.sheet-opt:hover { border-color: var(--teal); background: #fff; }
+.sheet-opt .so-ico { font-size: 1.2rem; line-height: 1.1; }
+.sheet-opt .so-t { font-weight: 600; font-size: .93rem; display: block; }
+.sheet-opt .so-b { font-size: .8rem; color: var(--ink-soft); display: block; }
+
+.explain {
+  background: var(--teal); color: #fff;
+  border-radius: var(--r-md); padding: 1rem; margin-top: .9rem;
+}
+.explain p { font-size: .93rem; }
+
+/* ---------- supply / refill ---------- */
+
+.supply-bar { height: 7px; border-radius: 4px; background: var(--line-soft); overflow: hidden; }
+.supply-bar i { display: block; height: 100%; background: var(--teal); border-radius: 4px; }
+.supply-bar.low i { background: var(--terracotta); }
+
+/* ---------- role views ---------- */
+
+.rolestrip {
+  display: flex; gap: .3rem; padding: .45rem .5rem;
+  background: #EFE7D9; border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+.rolestrip button {
+  font-size: .74rem; font-weight: 600; white-space: nowrap;
+  padding: .38em .75em; border-radius: 999px;
+  background: transparent; color: var(--ink-soft);
+}
+.rolestrip button.on { background: var(--teal); color: #fff; }
+
+.who {
+  padding: .7rem .95rem; background: var(--teal-soft);
+  border-bottom: 1px solid #C9DED9;
+}
+.who .who-n { font-family: var(--font-display); font-weight: 700; color: var(--teal-deep); font-size: 1rem; }
+.who .who-r { font-size: .76rem; color: var(--teal); }
+
 /* ---------- onboarding / intro ---------- */
 
 .ob { padding: 1.4rem 1.1rem 1.6rem; display: flex; flex-direction: column; gap: 1rem; min-height: 100%; }
@@ -551,9 +613,18 @@ var CLINIC = { name: "Sunrise Family Clinic", doctor: "Dr. Anand Rao", coordinat
 
 var MEDS = [
   { id: "tel", name: "Telmisartan 40mg", why: "Blood pressure", icon: "❤️", risk: true,
-    how: "One tablet, same time each day. Take it even if your blood pressure feels normal." },
+    how: "One tablet, same time each day. Take it even if your blood pressure feels normal.",
+    start: 7,
+    /* shown when someone says they're stopping because they feel better */
+    whyContinue: "Blood pressure medicine works by holding your pressure down every single day. " +
+      "Feeling well is a sign it is working — not a sign you can stop. If you stop, your pressure " +
+      "usually climbs back within a few days, and most people feel nothing at all while it does." },
   { id: "met", name: "Metformin 500mg", why: "Blood sugar", icon: "💊", risk: false,
-    how: "One tablet with food. Taking it on an empty stomach can upset your stomach." }
+    how: "One tablet with food. Taking it on an empty stomach can upset your stomach.",
+    start: 30,
+    whyContinue: "Metformin keeps your sugar steady over months, not hours. You won't feel it working, " +
+      "and you won't feel it wear off — but your levels drift back up quietly. Please speak to " +
+      "Dr. Rao before stopping, rather than stopping first." }
 ];
 
 /* four doses a day, minutes from midnight */
@@ -567,6 +638,11 @@ var SCHEDULE = [
 var GRACE = 90;          // minutes after due before a dose counts as missed
 var TODAY = 6;           // day index treated as "today" (days 0-5 are seeded history)
 var START_MIN = 7 * 60;  // simulation opens at 07:00
+var REFILL_DAYS = 4;     // warn this many days before a medicine runs out
+var NAG_EVERY = 30;      // "typical reminder app" mode re-pings this often
+
+/* Diwedi: a booked OPD slot that nobody flags when it's missed. */
+var APPOINTMENT = { label: "Follow-up with Dr. Rao", day: TODAY + 2, min: 11 * 60 };
 
 var FILES = [
   { t: "Prescription", l: "Telmisartan + Metformin — current plan", d: "2 Aug" },
@@ -585,7 +661,7 @@ var VISIT_NOTE =
    2. State
    ============================================================ */
 
-var KEY = "careloop_proto_v2";
+var KEY = "careloop_proto_v3";
 var S;
 
 function fresh() {
@@ -593,6 +669,8 @@ function fresh() {
     phase: "intro",            // intro | onboarding | app
     step: 0,
     screen: "home",
+    role: "patient",           // patient | caregiver | clinic | doctor
+    mode: "tiered",            // tiered | standard  (the contrast experiment)
     locked: false,
     profile: {
       name: "Radha",
@@ -615,7 +693,14 @@ function fresh() {
     alerts: [],                // caregiver alerts
     shares: [],
     call: null,
-    stats: { pings: 0, standard: 0, silent: 0 },
+    stats: { pings: 0, silent: 0 },
+    supply: { tel: 7, met: 30 },   // tablets left
+    refillWarned: {},              // medId -> true once warned
+    refillOrdered: {},
+    reason: null,                  // pending "why not?" sheet: { i }
+    selfStop: null,                // { medId } when someone says they feel better
+    concerns: [],                  // side effects / symptoms raised
+    apptMissed: false,
     openMed: null,
     facOpen: false
   };
@@ -805,6 +890,31 @@ function todayDoses() {
 
 function setTier(t) { S.tier = t; }
 
+/* ---- refill (Panda: "warn me before it runs out, not after") ---- */
+
+function perDay(medId) {
+  var n = 0;
+  for (var i = 0; i < SCHEDULE.length; i++) if (SCHEDULE[i].medId === medId) n++;
+  return n || 1;
+}
+function daysLeft(medId) {
+  var left = S.supply[medId];
+  if (typeof left !== "number") return 99;
+  return Math.floor(left / perDay(medId));
+}
+function checkRefill(medId) {
+  var d = daysLeft(medId);
+  if (d > REFILL_DAYS || S.refillWarned[medId] || S.refillOrdered[medId]) return;
+  S.refillWarned[medId] = true;
+  var m = med(medId);
+  logEvent("refill", m.name + " running low — " + d + " days left");
+  notify({
+    title: m.name.split(" ")[0] + " is running low",
+    body: "About " + d + " day" + (d === 1 ? "" : "s") + " left. Order now so you don't run out.",
+    kind: "warn", screen: "meds"
+  });
+}
+
 function markDose(i, status) {
   var k = doseKey(S.day, i);
   S.log[k] = status;
@@ -814,7 +924,10 @@ function markDose(i, status) {
   if (status === "taken") {
     S.streak = 0;
     setTier("green");
+    if (typeof S.supply[m.id] === "number" && S.supply[m.id] > 0) S.supply[m.id]--;
     logEvent("taken", m.name + " at " + clock(SCHEDULE[i].min) + " — taken");
+    save();
+    checkRefill(m.id);
   } else {
     onMiss(i);
   }
@@ -852,10 +965,83 @@ function startCall(i) {
   render();
 }
 
+/* ---- why a dose was skipped ----------------------------------
+   Diwedi's parents stopped because they felt better. That is a
+   belief, not a lapse of memory, so it needs an explanation
+   rather than another reminder. A side effect needs the clinic.
+   --------------------------------------------------------------- */
+
+function giveReason(i, why) {
+  var m = med(SCHEDULE[i].medId);
+  S.reason = null;
+
+  if (why === "better") {
+    S.selfStop = { medId: m.id, dose: i };
+    S.log[doseKey(S.day, i)] = "missed";
+    S.seen[doseKey(S.day, i)] = true;
+    logEvent("self-stop", "Said she feels better and is thinking of stopping " + m.name);
+    S.alerts.unshift({
+      id: uid(), kind: "self-stop",
+      text: S.profile.name + " says she feels better and may stop her " + m.name + ". This is the risky one — she isn't forgetting, she thinks she's finished.",
+      day: S.day, min: S.min, done: false
+    });
+    save(); render();
+    return;
+  }
+
+  if (why === "unwell") {
+    S.concerns.unshift({ id: uid(), medId: m.id, day: S.day, min: S.min,
+      text: m.name + " may be making her feel unwell" });
+    S.log[doseKey(S.day, i)] = "missed";
+    S.seen[doseKey(S.day, i)] = true;
+    logEvent("concern", "Reported feeling unwell after " + m.name);
+    setTier("yellow");
+    save(); render();
+    notify({
+      title: "Thank you for telling us",
+      body: "We've let " + CLINIC.name + " know. Don't stop on your own — they'll call you.",
+      kind: "crit", screen: "home"
+    });
+    return;
+  }
+
+  /* plain forgot — the ordinary ladder */
+  onMiss(i);
+  save(); render();
+}
+
+function ackSelfStop(understood) {
+  var m = S.selfStop ? med(S.selfStop.medId) : null;
+  var i = S.selfStop ? S.selfStop.dose : null;
+  S.selfStop = null;
+  if (understood && m && i !== null) {
+    S.log[doseKey(S.day, i)] = "taken";
+    S.streak = 0;
+    setTier("green");
+    if (typeof S.supply[m.id] === "number" && S.supply[m.id] > 0) S.supply[m.id]--;
+    logEvent("resumed", "Heard why it continues and took the " + m.name + " dose");
+    save(); render();
+    notify({ title: "Good — that's logged", body: "Keep going as prescribed until Dr. Rao says otherwise.", kind: "calm", screen: "home" });
+  } else {
+    logEvent("declined", "Still intends to stop — clinic notified");
+    setTier("red");
+    save(); render();
+    notify({ title: CLINIC.name + " has been told", body: "Someone will call to talk it through before you stop.", kind: "crit", screen: "home" });
+  }
+}
+
 function answerCall(yes) {
   if (!S.call) return;
   var i = S.call.dose, m = med(SCHEDULE[i].medId);
   hush();
+
+  /* "I'm feeling better" on the call routes to the explanation, not the ladder */
+  if (yes === "better") {
+    S.call = null;
+    giveReason(i, "better");
+    return;
+  }
+
   if (yes) {
     S.log[doseKey(S.day, i)] = "taken";
     S.streak = 0;
@@ -894,19 +1080,38 @@ function flagged() { return missesThisWeek() >= 3; }
 
 function processMoment() {
   var doses = SCHEDULE;
+
+  /* Diwedi: nobody flags a missed OPD slot */
+  if (!S.apptMissed && (S.day > APPOINTMENT.day ||
+      (S.day === APPOINTMENT.day && S.min > APPOINTMENT.min + 60))) {
+    S.apptMissed = true;
+    logEvent("appt", "Missed the booked OPD slot — " + APPOINTMENT.label);
+    notify({
+      title: "You missed your appointment",
+      body: APPOINTMENT.label + " was booked for " + clock(APPOINTMENT.min) + ". Tap to rebook.",
+      kind: "crit", screen: "home"
+    });
+  }
+
   for (var i = 0; i < doses.length; i++) {
     var k = doseKey(S.day, i);
     var due = doses[i].min;
     var st = S.log[k] || "pending";
+    var m = med(doses[i].medId);
 
     /* the dose comes due */
     if (S.min >= due && !S.seen[k]) {
       S.seen[k] = true;
-      S.stats.standard++;                     // a conventional app pings here, every time
-      if (S.tier === "green") {
+      if (S.mode === "standard") {
+        /* a typical reminder app: ping every dose, regardless of how she's doing */
+        notify({
+          title: "Time for your " + m.name.split(" ")[0],
+          body: clock(due) + " — " + m.why.toLowerCase() + ".",
+          kind: "warn", screen: "home"
+        });
+      } else if (S.tier === "green") {
         S.stats.silent++;                     // CareLoop stays quiet while on track
       } else {
-        var m = med(doses[i].medId);
         notify({
           title: "Time for your " + m.name.split(" ")[0],
           body: clock(due) + " — " + m.why.toLowerCase() + ".",
@@ -914,6 +1119,18 @@ function processMoment() {
         });
       }
     }
+
+    /* typical apps also nag on a timer until you comply */
+    if (S.mode === "standard" && st === "pending" && S.seen[k] &&
+        S.min > due && S.min < due + GRACE && (S.min - due) % NAG_EVERY === 0) {
+      S.stats.standardPings++;
+      notify({
+        title: "Still waiting: " + m.name.split(" ")[0],
+        body: "You haven't confirmed your " + clock(due) + " dose.",
+        kind: "warn", screen: "home"
+      });
+    }
+
     /* grace window runs out */
     if (S.min >= due + GRACE && st === "pending" && S.seen[k]) {
       S.log[k] = "missed";
@@ -993,7 +1210,7 @@ function doseRow(d) {
   else if (open)
     right = '<div class="dose-act">' +
       '<button class="btn btn-primary btn-sm" data-act="take" data-i="' + d.i + '">Taken</button>' +
-      '<button class="btn btn-ghost btn-sm" data-act="skip" data-i="' + d.i + '">Not yet</button></div>';
+      '<button class="btn btn-ghost btn-sm" data-act="ask-why" data-i="' + d.i + '">Not yet</button></div>';
   else right = '<div class="mark mark-wait">·</div>';
 
   return '<div class="dose">' +
@@ -1197,7 +1414,9 @@ function scrMeds() {
         '<div class="row gap-sm"><span>⚠️</span><span style="font-size:.86rem;color:var(--terracotta-ink)">' +
         'This one matters most. If a dose is missed, CareLoop calls straight away rather than waiting for a pattern.' +
         '</span></div></div>' : "") +
+      '<div class="card stack gap-sm"><h3>Supply</h3>' + supplyBlock(m.id) + '</div>' +
       '<div class="card stack gap-sm"><h3>How to take it</h3><p class="muted">' + esc(m.how) + '</p></div>' +
+      '<div class="card stack gap-sm"><h3>Why it continues</h3><p class="muted">' + esc(m.whyContinue) + '</p></div>' +
       '<div class="card stack gap-sm"><h3>Your times</h3>' +
         times.map(function (t) {
           return '<div class="between"><span class="muted">' + clock(t.min) + '</span>' +
@@ -1217,11 +1436,28 @@ function scrMeds() {
         '<div class="row gap-sm"><div class="dose-ico' + (m.risk ? " risk" : "") + '">' + m.icon + '</div>' +
         '<span class="grow"><span class="dose-name" style="display:block">' + esc(m.name) + '</span>' +
         '<span class="dose-meta">' + esc(m.why) + " · " + n + ' × daily</span></span>' +
-        '<span class="muted">›</span></div></button>';
+        '<span class="muted">›</span></div>' +
+        supplyBlock(m.id) + '</button>';
     }).join("") +
-    '<div class="card stack gap-sm"><h3>Running low?</h3>' +
-    '<p class="muted">Your pharmacy can see this plan with a one-time code. No repeat trips with a paper slip.</p>' +
-    '<button class="btn btn-outline btn-block" data-act="go" data-s="file">Share with pharmacy</button></div>' +
+  '</div>';
+}
+
+/* Panda: "tracking remaining doses and warning a few days early" */
+function supplyBlock(medId) {
+  var left = S.supply[medId];
+  if (typeof left !== "number") return "";
+  var d = daysLeft(medId);
+  var low = d <= REFILL_DAYS;
+  var full = med(medId).start || 30;
+  var pctLeft = Math.max(4, Math.min(100, Math.round((left / full) * 100)));
+  return '<div class="stack gap-xs" style="margin-top:.7rem">' +
+    '<div class="between"><span class="tiny">' + left + ' tablets left</span>' +
+    '<span class="tiny" style="' + (low ? "color:var(--terracotta-ink);font-weight:700" : "") + '">' +
+      (S.refillOrdered[medId] ? "Refill requested" : "about " + d + " day" + (d === 1 ? "" : "s")) + '</span></div>' +
+    '<div class="supply-bar' + (low ? " low" : "") + '"><i style="width:' + pctLeft + '%"></i></div>' +
+    (low && !S.refillOrdered[medId]
+      ? '<span class="btn btn-accent btn-sm" data-act="refill" data-m="' + medId + '" style="margin-top:.35rem">Request a refill</span>'
+      : "") +
   '</div>';
 }
 
@@ -1383,6 +1619,160 @@ function scrSettings() {
   '</div>';
 }
 
+/* ---------- the other side of the escalation ---------- */
+
+function whoBar(name, role) {
+  return '<div class="who"><div class="who-n">' + esc(name) + '</div>' +
+    '<div class="who-r">' + esc(role) + '</div></div>';
+}
+
+function scrCaregiver() {
+  var open = S.alerts.filter(function (a) { return !a.done; });
+  var takenWk = 0, totalWk = 0;
+  for (var d = Math.max(0, S.day - 6); d <= S.day; d++)
+    for (var i = 0; i < SCHEDULE.length; i++) {
+      var stt = doseStatus(d, i);
+      if (stt === "taken" || stt === "missed") { totalWk++; if (stt === "taken") takenWk++; }
+    }
+  var pct = totalWk ? Math.round((takenWk / totalWk) * 100) : 100;
+
+  return whoBar(S.profile.caregiver + " — " + S.profile.name + "’s " + S.profile.relation.toLowerCase(),
+                "What the caregiver sees") +
+    '<div class="pad stack gap-md">' +
+
+    (open.length
+      ? open.map(function (a) {
+          var crit = a.kind === "self-stop";
+          return '<div class="card stack gap-sm" style="border-color:' + (crit ? "#EFC0AC" : "var(--line)") + '">' +
+            '<div class="row gap-sm"><span style="font-size:1.2rem">' + (crit ? "🚩" : "📞") + '</span>' +
+            '<h3 style="margin:0">' + (crit ? "This one needs a conversation" : "Check-in needed") + '</h3></div>' +
+            '<p class="muted">' + esc(a.text) + '</p>' +
+            '<div class="tiny">' + dayLabel(a.day) + " · " + clock(a.min) + '</div>' +
+            '<button class="btn btn-primary btn-block" data-act="ack" data-id="' + a.id + '">I’ll call her</button>' +
+          '</div>';
+        }).join("")
+      : '<div class="card stack gap-sm">' +
+        '<div class="row gap-sm"><span style="font-size:1.3rem">🌤️</span>' +
+        '<div><h3 style="margin:0">' + esc(S.profile.name) + ' has had a steady week</h3>' +
+        '<p class="muted" style="margin:0">' + pct + '% of doses taken. Nothing needs you right now.</p></div></div>' +
+        '<p class="tiny">This is the whole point — you hear from us when something changes, not every day.</p>' +
+      '</div>') +
+
+    /* the reassurance digest their own brief asked for */
+    '<div class="card stack gap-sm">' +
+      '<div class="eyebrow">Weekly summary</div>' +
+      '<h3>How she’s doing</h3>' +
+      '<div class="row" style="gap:1.6rem">' +
+        '<div class="stat"><b>' + pct + '%</b><span class="tiny">doses taken</span></div>' +
+        '<div class="stat"><b>' + missesThisWeek() + '</b><span class="tiny">missed this week</span></div>' +
+      '</div>' +
+      '<p class="tiny">Sent every Sunday whether or not anything went wrong.</p>' +
+    '</div>' +
+
+    '<div class="card stack gap-sm">' +
+      '<div class="eyebrow">Your access</div>' +
+      '<div class="between"><span class="muted">Missed-dose alerts</span><span class="pill ' +
+        (S.profile.share.alerts ? "pill-green\">on" : "pill-plain\">off") + '</span></div>' +
+      '<div class="between"><span class="muted">Reports & prescriptions</span><span class="pill ' +
+        (S.profile.share.reports ? "pill-green\">on" : "pill-plain\">off") + '</span></div>' +
+      '<p class="tiny">' + esc(S.profile.name) + ' controls this and can switch it off at any time. ' +
+      'You never see a live feed of her day.</p>' +
+    '</div>' +
+  '</div>';
+}
+
+function scrClinic() {
+  var flag = flagged();
+  return whoBar(CLINIC.coordinator + " — " + CLINIC.name, "What the clinic coordinator sees") +
+    '<div class="pad stack gap-md">' +
+
+    '<div class="card stack gap-sm">' +
+      '<div class="eyebrow">Needs attention today</div>' +
+      '<div class="between"><div><div class="dose-name">' + esc(S.profile.name) + ' Iyer</div>' +
+      '<div class="dose-meta">Hypertension · Type 2 diabetes</div></div>' +
+      '<span class="pill pill-' + S.tier + '">' + esc(TIER_COPY[S.tier].eyebrow) + '</span></div>' +
+      (flag ? '<div class="banner-body" style="background:var(--terracotta-soft);color:var(--terracotta-ink);padding:.6rem .7rem;border-radius:var(--r-sm)">' +
+        missesThisWeek() + ' missed doses in 7 days — pattern, not a one-off.</div>' : "") +
+      (S.concerns.length ? '<div class="banner-body" style="background:var(--marigold-soft);color:var(--marigold-ink);padding:.6rem .7rem;border-radius:var(--r-sm)">' +
+        'Reported a possible side effect — ' + esc(S.concerns[0].text) + '</div>' : "") +
+      (S.alerts.some(function (a) { return a.kind === "self-stop"; })
+        ? '<div class="banner-body" style="background:var(--terracotta-soft);color:var(--terracotta-ink);padding:.6rem .7rem;border-radius:var(--r-sm)">' +
+          'May stop treatment believing she has recovered — needs a call, not a reminder.</div>' : "") +
+    '</div>' +
+
+    /* Diwedi's missed-slot flag — the one with a rupee value attached */
+    '<div class="card stack gap-sm">' +
+      '<div class="eyebrow">OPD slots</div>' +
+      '<h3>Missed appointments</h3>' +
+      (S.apptMissed
+        ? '<div class="between"><div><div class="dose-name">' + esc(S.profile.name) + ' Iyer</div>' +
+          '<div class="dose-meta">' + esc(APPOINTMENT.label) + ' · ' + clock(APPOINTMENT.min) + '</div></div>' +
+          '<span class="flag-chip" style="background:var(--terracotta-soft);color:var(--terracotta-ink);font-size:.72rem;font-weight:700;padding:.25em .6em;border-radius:999px">No-show</span></div>' +
+          '<button class="btn btn-outline btn-block" data-act="rebook">Offer the slot to the waitlist</button>'
+        : '<p class="muted">No missed slots today.</p>') +
+      '<p class="tiny">Every unflagged no-show is a paid slot the chain loses and a patient who drops out of follow-up.</p>' +
+    '</div>' +
+
+    '<div class="card stack gap-sm">' +
+      '<div class="eyebrow">What we don’t show you</div>' +
+      '<p class="muted" style="font-size:.85rem">Individual dose times, daily readings and message history stay with the patient. ' +
+      'The dashboard carries patterns only.</p>' +
+    '</div>' +
+  '</div>';
+}
+
+function scrDoctor() {
+  var missed = S.events.filter(function (e) { return e.type === "missed"; }).length;
+  var calls  = S.events.filter(function (e) { return e.type === "call"; }).length;
+  var exc = S.events.filter(function (e) {
+    return ["missed", "call", "escalated", "self-stop", "concern", "declined"].indexOf(e.type) !== -1;
+  }).slice(0, 7);
+
+  return whoBar(CLINIC.doctor, "What the doctor sees before a follow-up") +
+    '<div class="pad stack gap-md">' +
+
+    '<div class="card stack gap-sm">' +
+      '<div class="eyebrow">Since the last visit</div>' +
+      '<h3>' + esc(S.profile.name) + ' Iyer — exceptions</h3>' +
+      '<div class="row" style="gap:1.4rem;flex-wrap:wrap">' +
+        '<div class="stat"><b>' + missed + '</b><span class="tiny">missed doses</span></div>' +
+        '<div class="stat"><b>' + calls + '</b><span class="tiny">check-in calls</span></div>' +
+        '<div class="stat"><b>' + S.concerns.length + '</b><span class="tiny">side effects raised</span></div>' +
+      '</div>' +
+    '</div>' +
+
+    (S.alerts.some(function (a) { return a.kind === "self-stop"; })
+      ? '<div class="card stack gap-sm" style="border-color:#EFC0AC">' +
+        '<div class="eyebrow" style="color:var(--terracotta-ink)">Flagged</div>' +
+        '<h3>Believes the course is finished</h3>' +
+        '<p class="muted">She reported feeling better and considered stopping. She was shown why the course continues; ' +
+        'the outcome is in the log below. Worth two minutes at the next visit.</p></div>'
+      : "") +
+
+    (S.concerns.length
+      ? '<div class="card stack gap-sm"><div class="eyebrow">Reported by the patient</div>' +
+        S.concerns.slice(0, 3).map(function (c) {
+          return '<div class="between"><span class="muted">' + esc(c.text) + '</span>' +
+            '<span class="tiny">' + dayLabel(c.day) + '</span></div>';
+        }).join("") + '</div>'
+      : "") +
+
+    '<div class="card stack gap-sm"><h3>Exception log</h3>' +
+      (exc.length ? exc.map(function (e) {
+        return '<div class="between"><span class="muted" style="font-size:.85rem">' + esc(e.text) + '</span>' +
+          '<span class="tiny" style="white-space:nowrap">' + dayLabel(e.day) + '</span></div>';
+      }).join("") : '<p class="muted">Nothing exceptional to report.</p>') +
+    '</div>' +
+
+    /* the honest caveat — this is self-reported, not observed */
+    '<div class="card flat stack gap-xs" style="background:var(--marigold-soft);border-color:#EFD9A8">' +
+      '<div class="eyebrow" style="color:var(--marigold-ink)">Read this as</div>' +
+      '<p style="font-size:.85rem;color:var(--marigold-ink)">Self-reported adherence. CareLoop records what the patient ' +
+      'confirmed in the app, not what she swallowed. Treat it as a prompt for conversation, not as a measurement.</p>' +
+    '</div>' +
+  '</div>';
+}
+
 /* ---------- chrome ---------- */
 
 function statusbar() {
@@ -1403,7 +1793,7 @@ var TABS = [
 ];
 
 function tabbar() {
-  if (S.phase !== "app" || S.locked || S.call) return "";
+  if (S.phase !== "app" || S.locked || S.call || S.role !== "patient") return "";
   var main = ["home", "meds", "progress", "file"];
   return '<div class="tabbar">' + TABS.map(function (t) {
     var on = S.screen === t.id || (t.id === "home" && main.indexOf(S.screen) === -1);
@@ -1426,35 +1816,99 @@ function header() {
     '</span></div>';
 }
 
-function callOverlay() {
+function overlays() {
   var o = document.getElementById("overlay");
-  if (!S.call) { o.className = "layer-overlay"; o.innerHTML = ""; return; }
-  o.className = "layer-overlay on";
-  o.innerHTML = '<div class="call">' +
-    '<span class="call-badge">Automated voice · not a person</span>' +
-    '<div class="call-av">☎️</div>' +
-    '<div class="call-who">CareLoop check-in</div>' +
-    '<div class="call-sub">calling ' + esc(S.profile.name) + '</div>' +
-    '<div class="call-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>' +
-    '<div class="call-script">' + esc(S.call.script) + '</div>' +
-    '<div class="call-acts">' +
-      '<button class="btn btn-accent btn-block" data-act="call-yes">Yes, I’ve taken it</button>' +
-      '<button class="btn btn-outline btn-block" data-act="call-no">No, not yet</button>' +
-      '<button class="btn btn-ghost btn-block" data-act="call-replay">Say that again</button>' +
-    '</div></div>';
 
-  if (!S.call.spoken) { S.call.spoken = true; say(S.call.script); }
+  /* 1. incoming AI check-in call */
+  if (S.call) {
+    o.className = "layer-overlay on";
+    o.innerHTML = '<div class="call">' +
+      '<span class="call-badge">Automated voice · not a person</span>' +
+      '<div class="call-av">☎️</div>' +
+      '<div class="call-who">CareLoop check-in</div>' +
+      '<div class="call-sub">calling ' + esc(S.profile.name) + '</div>' +
+      '<div class="call-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>' +
+      '<div class="call-script">' + esc(S.call.script) + '</div>' +
+      '<div class="call-acts">' +
+        '<button class="btn btn-accent btn-block" data-act="call-yes">Yes, I’ve taken it</button>' +
+        '<button class="btn btn-outline btn-block" data-act="call-no">No, not yet</button>' +
+        '<button class="btn btn-ghost btn-block" data-act="call-better">I feel better — do I still need it?</button>' +
+        '<button class="btn btn-ghost btn-block" data-act="call-replay">Say that again</button>' +
+      '</div></div>';
+    if (!S.call.spoken) { S.call.spoken = true; say(S.call.script); }
+    return;
+  }
+
+  /* 2. someone said they feel better — explain, don't nag */
+  if (S.selfStop) {
+    var sm = med(S.selfStop.medId);
+    o.className = "layer-overlay on";
+    o.innerHTML = '<div class="sheet-wrap"><div class="sheet">' +
+      '<div class="eyebrow">About stopping</div>' +
+      '<h2>Feeling well is the medicine working</h2>' +
+      '<p class="muted">' + esc(sm.name) + ' — here’s why the course continues.</p>' +
+      '<div class="explain"><p>' + esc(sm.whyContinue) + '</p></div>' +
+      '<button class="btn btn-quiet btn-block" style="margin-top:.7rem" data-act="selfstop-hear">▶ Hear this</button>' +
+      '<div class="sheet-opts">' +
+        '<button class="btn btn-primary btn-block" data-act="selfstop-ok">I understand — I’ll take it</button>' +
+        '<button class="btn btn-outline btn-block" data-act="selfstop-no">I still want to stop</button>' +
+      '</div>' +
+      '<p class="tiny" style="margin-top:.7rem">Only Dr. Rao can end a course. CareLoop never changes your plan.</p>' +
+    '</div></div>';
+    return;
+  }
+
+  /* 3. why wasn't this dose taken? */
+  if (S.reason !== null && S.reason !== undefined) {
+    var rm = med(SCHEDULE[S.reason.i].medId);
+    o.className = "layer-overlay on";
+    o.innerHTML = '<div class="sheet-wrap"><div class="sheet">' +
+      '<h2>What’s getting in the way?</h2>' +
+      '<p class="muted">' + esc(rm.name) + ' at ' + clock(SCHEDULE[S.reason.i].min) + '. There’s no wrong answer.</p>' +
+      '<div class="sheet-opts">' +
+        opt("forgot", "⏰", "I forgot", "It slipped my mind — I’ll take it now or later.") +
+        opt("better", "🌿", "I’m feeling better", "I’m wondering whether I still need this.") +
+        opt("unwell", "🤢", "It’s making me feel unwell", "Something about it doesn’t agree with me.") +
+      '</div>' +
+      '<button class="btn btn-ghost btn-block" style="margin-top:.6rem" data-act="reason-cancel">Back</button>' +
+    '</div></div>';
+    return;
+  }
+
+  o.className = "layer-overlay";
+  o.innerHTML = "";
+}
+
+function opt(v, ico, t, b) {
+  return '<button class="sheet-opt" data-act="reason" data-v="' + v + '">' +
+    '<span class="so-ico">' + ico + '</span><span class="grow">' +
+    '<span class="so-t">' + esc(t) + '</span><span class="so-b">' + esc(b) + '</span></span></button>';
+}
+
+function isFacilitator() {
+  return (location.hash || "").toLowerCase().indexOf("facilitator") !== -1;
 }
 
 function simBar() {
   var host = document.getElementById("sim");
   if (S.phase !== "app") { host.innerHTML = ""; return; }
+
+  var std = S.mode === "standard";
   host.innerHTML = '<div class="sim">' +
     '<span class="sim-tag">Simulation — not part of the app</span>' +
     '<span class="sim-clock">' + dayLabel(S.day) + ", " + clock(S.min) + '</span>' +
     '<button data-act="sim-hour">+1 hour</button>' +
     '<button data-act="sim-next">Skip to next moment</button>' +
     '<button data-act="sim-lock">' + (S.locked ? "Wake" : "Lock phone") + '</button>' +
+    '<button data-act="sim-mode" style="' +
+      (std ? "background:var(--terracotta);color:#fff;border-color:var(--terracotta)" : "") + '">' +
+      (std ? "Now: typical reminder app" : "Now: CareLoop (tiered)") + '</button>' +
+    '<span class="sim-tag" style="letter-spacing:0;text-transform:none;font-weight:600;color:var(--ink-soft)">' +
+      (std
+        ? 'Pinged ' + S.stats.pings + ' times so far. Switch back to compare.'
+        : 'CareLoop has sent ' + S.stats.pings + '. An app that pings every dose would have sent ' +
+          (S.stats.pings + S.stats.silent) + '.') +
+    '</span>' +
   '</div>';
 }
 
@@ -1478,6 +1932,24 @@ function facPanel() {
   '</div>';
 }
 
+var ROLES = [
+  { id: "patient",   label: "Patient" },
+  { id: "caregiver", label: "Caregiver" },
+  { id: "clinic",    label: "Clinic" },
+  { id: "doctor",    label: "Doctor" }
+];
+
+/* Only facilitators get the role switcher — testers see the patient app alone. */
+function roleStrip() {
+  if (!isFacilitator() || S.phase !== "app") return "";
+  var pend = S.alerts.filter(function (a) { return !a.done; }).length;
+  return '<div class="rolestrip">' + ROLES.map(function (r) {
+    var badge = (r.id === "caregiver" && pend) ? " (" + pend + ")" : "";
+    return '<button class="' + (S.role === r.id ? "on" : "") + '" data-act="role" data-v="' + r.id + '">' +
+      r.label + badge + '</button>';
+  }).join("") + '</div>';
+}
+
 function render() {
   document.documentElement.style.fontSize = S.profile.textSize + "px";
 
@@ -1486,6 +1958,11 @@ function render() {
 
   if (S.phase === "intro") html = scrIntro();
   else if (S.phase === "onboarding") html = scrOnboard();
+  else if (S.role !== "patient" && isFacilitator()) {
+    html = roleStrip() +
+      (S.role === "caregiver" ? scrCaregiver() :
+       S.role === "clinic"    ? scrClinic() : scrDoctor());
+  }
   else if (S.locked) html = scrLock();
   else {
     var body =
@@ -1496,16 +1973,18 @@ function render() {
       S.screen === "notifs" ? scrNotifs() :
       S.screen === "settings" ? scrSettings() :
       scrHome();
-    html = header() + body;
+    html = roleStrip() + header() + body;
   }
 
   v.innerHTML = html;
-  document.getElementById("statusbar").innerHTML = statusbar();
-  document.getElementById("statusbar").style.display = (S.phase === "app" && !S.locked) ? "flex" : "none";
+  var sb = document.getElementById("statusbar");
+  var showBar = S.phase === "app" && !S.locked && S.role === "patient";
+  sb.innerHTML = showBar ? statusbar() : "";
+  sb.style.display = showBar ? "flex" : "none";
   document.getElementById("tabbar").innerHTML = tabbar();
   simBar();
   facPanel();
-  callOverlay();
+  overlays();
 }
 
 /* ============================================================
@@ -1577,11 +2056,49 @@ document.addEventListener("click", function (ev) {
 
   /* --- doses --- */
   if (a === "take") { markDose(parseInt(el.getAttribute("data-i"), 10), "taken"); return; }
-  if (a === "skip") { markDose(parseInt(el.getAttribute("data-i"), 10), "missed"); return; }
+  if (a === "ask-why") {
+    S.reason = { i: parseInt(el.getAttribute("data-i"), 10) };
+    save(); render(); return;
+  }
+  if (a === "reason") {
+    if (S.reason) giveReason(S.reason.i, el.getAttribute("data-v"));
+    return;
+  }
+  if (a === "reason-cancel") { S.reason = null; save(); render(); return; }
+
+  /* --- self-stopping --- */
+  if (a === "selfstop-ok")   { ackSelfStop(true); return; }
+  if (a === "selfstop-no")   { ackSelfStop(false); return; }
+  if (a === "selfstop-hear") { if (S.selfStop) say(med(S.selfStop.medId).whyContinue); return; }
+
+  /* --- refill --- */
+  if (a === "refill") {
+    var rid = el.getAttribute("data-m");
+    S.refillOrdered[rid] = true;
+    logEvent("refill-order", "Refill requested for " + med(rid).name);
+    save(); render();
+    notify({ title: "Refill requested", body: "Your pharmacy will have " + med(rid).name.split(" ")[0] + " ready to collect.", kind: "calm", screen: "meds" });
+    return;
+  }
+
+  /* --- roles / escalation views --- */
+  if (a === "role") { S.role = el.getAttribute("data-v"); save(); render(); return; }
+  if (a === "ack") {
+    var aid = el.getAttribute("data-id");
+    for (var m2 = 0; m2 < S.alerts.length; m2++) if (S.alerts[m2].id === aid) S.alerts[m2].done = true;
+    logEvent("alert-ack", S.profile.caregiver + " acknowledged and called");
+    save(); render(); return;
+  }
+  if (a === "rebook") {
+    S.apptMissed = false;
+    logEvent("rebook", "Missed slot released to the waitlist");
+    save(); render(); return;
+  }
 
   /* --- call --- */
   if (a === "call-yes") { answerCall(true); return; }
   if (a === "call-no")  { answerCall(false); return; }
+  if (a === "call-better") { answerCall("better"); return; }
   if (a === "call-replay") { if (S.call) say(S.call.script); return; }
 
   /* --- misc --- */
@@ -1607,6 +2124,12 @@ document.addEventListener("click", function (ev) {
   if (a === "sim-hour") { step(60); return; }
   if (a === "sim-next") { skipToNext(); return; }
   if (a === "sim-lock") { S.locked = !S.locked; save(); render(); return; }
+  if (a === "sim-mode") {
+    S.mode = S.mode === "tiered" ? "standard" : "tiered";
+    logEvent("mode", "Switched to " + (S.mode === "standard" ? "a typical reminder app" : "CareLoop's tiered system"));
+    save(); render();
+    return;
+  }
 
   /* --- facilitator --- */
   if (a === "fac-miss") {
