@@ -17,14 +17,37 @@ python -m http.server 5500
 
 Then visit `http://localhost:5500`.
 
-## Two URLs
+## One link per person
 
-| URL | Who it's for | What they see |
+Each role has its own URL, so a doctor or pharmacist opens their tool and sees
+nothing else — no role switcher, no prototype scaffolding.
+
+| URL | Who | Shell |
 | --- | --- | --- |
-| `/` | **Test users** | The patient app only |
-| `/#facilitator` | **You, running the session** | Adds a role switcher (Caregiver / Clinic / Doctor) and facilitator controls |
+| `/` | Patient (Radha) | Phone |
+| `/?role=caregiver` | Family caregiver (Meera) | Phone |
+| `/?role=doctor` | Dr. Rao | Desktop |
+| `/?role=clinic` | Clinic coordinator | Desktop |
+| `/?role=pharmacy` | Pharmacy counter | Desktop |
+| `/?role=lab` | Diagnostics lab | Desktop |
 
-Send testers the plain URL. Keep `#facilitator` for yourself.
+Add `#facilitator` to any of them for a role switcher and demo controls. Keep that
+one for yourself — testers get the plain link.
+
+## The loop is closed
+
+All six ends share one state, so actions really propagate:
+
+- The **doctor** changes a dose, adds or stops a medicine, orders a test or writes
+  the visit note → the **patient's** schedule, spoken note and notifications update
+- The **patient** requests a refill → it lands in the **pharmacy** queue → marking it
+  ready tells the patient, dispensing tops her supply back up
+- The **doctor** orders a test → it appears in the **lab** queue → uploading the result
+  puts it in the patient's health file and on the doctor's summary
+- A declined check-in call → the **caregiver** is told, and a self-stop is flagged
+  differently from a plain miss, because it needs a conversation not a reminder
+
+Open two tabs side by side (say doctor and patient) and they stay in step.
 
 ## What it demonstrates
 
