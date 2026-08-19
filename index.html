@@ -429,6 +429,7 @@ function fresh() {
       "take it with your dinner, not on an empty stomach. Your next check-up is in six weeks. "+
       "Call the clinic if you feel dizzy or unusually tired.",
     reason:null, selfStop:null, concerns:[], apptMissed:false,
+    patternAlerted:false, reviewRequested:false,
     openMed:null, dscreens:{}, openPatient:false
   };
 }
@@ -626,6 +627,7 @@ function onMiss(slot){
              body:"Your "+clock(p.min)+" dose isn't marked yet. Take it when you can.",
              kind:"warn", screen:"home" });
   }
+  checkPattern();
 }
 
 function startCall(slot){
@@ -680,6 +682,7 @@ function giveReason(slot,why){
     notify({ title:S.profile.name+" may stop her "+m.name,
              body:"She believes the course is finished. Needs a conversation, not a reminder.",
              kind:"crit", to:"caregiver" });
+    checkPattern();
     save(); render(); return;
   }
   if(why==="unwell"){
@@ -687,7 +690,7 @@ function giveReason(slot,why){
       text:m.name+" may be making her feel unwell" });
     S.log[dkey(S.day,slot)]="missed"; S.seen[dkey(S.day,slot)]=true;
     logEvent("concern","Reported feeling unwell after "+m.name);
-    setTier("yellow"); save(); render();
+    setTier("yellow"); checkPattern(); save(); render();
     notify({ title:"Thank you for telling us",
              body:"We've let "+CLINIC.name+" know. Don't stop on your own — they'll call you.", kind:"crit" });
     return;
@@ -709,6 +712,26 @@ function ackSelfStop(ok){
     logEvent("declined","Still intends to stop — clinic notified");
     setTier("red"); save(); render();
     notify({ title:CLINIC.name+" has been told", body:"Someone will call to talk it through before you stop.", kind:"crit" });
+  }
+}
+
+/* One slip is ordinary. A run of them means something has changed — and the
+   journey map says the caregiver's real problem is confidence, not information.
+   So this prompt says what to do, and fires once per run rather than per miss. */
+var PATTERN_AT = 3;
+function checkPattern(){
+  var n=missesThisWeek();
+  if(n<PATTERN_AT){ S.patternAlerted=false; return; }
+  if(S.patternAlerted) return;
+  S.patternAlerted=true;
+  logEvent("pattern-caregiver", n+" missed doses in a week — "+S.profile.caregiver+" prompted");
+  S.alerts.unshift({ id:uid(), kind:"pattern", misses:n,
+    text:S.profile.name+" has missed "+n+" doses this week.",
+    day:S.day, min:S.min, done:false });
+  if(S.profile.share.alerts){
+    notify({ title:"This is starting to look like a pattern",
+             body:S.profile.name+" has missed "+n+" doses this week. Worth a conversation.",
+             kind:"crit", to:"caregiver" });
   }
 }
 
@@ -1159,6 +1182,7 @@ function scrCgHome(){
     '<h1>'+esc(S.profile.name)+'’s week</h1></div>'+
 
     (open.length? open.map(function(a){
+      if(a.kind==="pattern") return cgPatternCard(a);
       var crit=a.kind==="self-stop";
       return '<div class="card stack g-sm" style="border-color:'+(crit?"#EFC0AC":"var(--line)")+'">'+
         '<div class="row g-sm"><span style="font-size:1.2rem">'+(crit?"🚩":"📞")+'</span>'+
@@ -1182,6 +1206,23 @@ function scrCgHome(){
         return '<div class="between"><span class="muted">'+esc(c.text)+'</span><span class="tiny">'+dayLabel(c.day)+'</span></div>'; }).join("")+
       '<p class="tiny">The clinic has been told as well.</p></div>':"")+
   '</div>';
+}
+
+/* The prompt itself. Deliberately says what to do and what not to do —
+   "caregiver may have information but not confidence" is the documented gap. */
+function cgPatternCard(a){
+  return '<div class="card stack g-sm" style="border-color:#EFC0AC">'+
+    '<div class="row g-sm"><span style="font-size:1.25rem">📈</span>'+
+    '<h3 style="margin:0">This is starting to look like a pattern</h3></div>'+
+    '<p class="muted">'+esc(a.text)+' One or two is ordinary. '+a.misses+' in a week usually means '+
+    'something has changed — her routine, how she is feeling, or how she understands the plan.</p>'+
+    '<div class="flagbox flag-amber"><strong>What usually helps</strong><br />'+
+      'Ask what has changed rather than reminding her about the tablets. She almost certainly knows she has missed them. '+
+      'If she has stopped on purpose, or something does not feel right, the clinic should hear about it.</div>'+
+    '<div class="tiny">'+dayLabel(a.day)+" · "+clock(a.min)+'</div>'+
+    '<button class="btn btn-primary btn-block" data-act="ack" data-id="'+a.id+'">I’ll call her</button>'+
+    '<button class="btn btn-outline btn-block" data-act="ask-review" data-id="'+a.id+'">Ask the clinic to review</button>'+
+    '<p class="tiny">You are not expected to fix this on your own.</p></div>';
 }
 
 function scrCgActivity(){
@@ -1350,9 +1391,14 @@ function docPlan(){
             'data-str="'+p.slot+'" value="'+esc(p.strength)+'" /></td>'+
           '<td><select data-time="'+p.slot+'" style="padding:.35em .5em;border:1.5px solid var(--line);border-radius:8px">'+
             timeOptions(p.min)+'</select></td>'+
-          '<td class="r"><button class="btn btn-ghost btn-sm" data-act="drop-slot" data-s="'+p.slot+'">Remove</button></td></tr>'; }).join("")+
+          '<td class="r"><button class="btn btn-ghost btn-sm" style="padding:.4em .5em;color:var(--terracotta-ink)" '+
+            'title="Stop this dose" data-act="drop-slot" data-s="'+p.slot+'">Stop</button></td></tr>'; }).join("")+
       '</tbody></table></div>'+
-      '<button class="btn btn-primary" data-act="save-plan" style="align-self:flex-start;margin-top:.6rem">Save and send to patient</button></div>'+
+      '<div class="row g-sm wrapf" style="margin-top:.7rem">'+
+        '<button class="btn btn-primary" data-act="save-plan">Save and send to patient</button>'+
+        '<button class="btn btn-ghost" data-act="cancel-plan">Cancel</button>'+
+      '</div>'+
+      '<p class="tiny">Nothing reaches her phone until you save.</p></div>'+
 
     '<div class="card stack g-sm" style="margin-bottom:1rem"><h3>Add a medicine</h3>'+
       '<div class="row g-sm wrapf">'+
@@ -1407,6 +1453,9 @@ function clinicToday(){
         return '<tr><td><strong>'+esc(r.name)+'</strong></td><td class="muted">'+esc(r.cond)+'</td>'+
           '<td>'+pillFor(r.tier)+'</td><td class="muted">'+esc(r.note)+'</td></tr>'; }).join("")+
       '</tbody></table></div></div>'+
+    (S.reviewRequested?'<div class="flagbox flag-amber" style="margin-top:1rem"><strong>'+esc(S.profile.caregiver)+
+      ' has asked for a review.</strong><br />Her '+esc(S.profile.relation.toLowerCase())+' raised it after '+
+      missesThisWeek()+' missed doses this week — the family noticed before the system escalated.</div>':"")+
     (hasSelfStop()?'<div class="flagbox flag-red" style="margin-top:1rem"><strong>'+esc(S.profile.name)+
       ' may stop treatment believing she has recovered.</strong><br />Needs a call, not a reminder.</div>':"")+
     '<div class="flagbox flag-teal" style="margin-top:1rem"><strong>What we don’t show you</strong><br />'+
@@ -1803,6 +1852,16 @@ document.addEventListener("click", function(ev){
     logEvent("alert-ack",S.profile.caregiver+" acknowledged and called");
     save(); render(); toast("Marked as handled"); return;
   }
+  if(a==="ask-review"){
+    var rid3=el.getAttribute("data-id");
+    for(var q2=0;q2<S.alerts.length;q2++) if(S.alerts[q2].id===rid3) S.alerts[q2].done=true;
+    S.reviewRequested=true;
+    logEvent("review",S.profile.caregiver+" asked "+CLINIC.name+" to review the plan");
+    notify({ title:"Review requested by "+S.profile.caregiver,
+             body:S.profile.name+" Iyer — "+missesThisWeek()+" missed doses this week.",
+             kind:"crit", to:"clinic" });
+    save(); render(); toast("The clinic has been asked to review"); return;
+  }
   if(a==="rebook"){ S.apptMissed=false; logEvent("rebook","Missed slot released to the waitlist"); save(); render(); toast("Slot offered to the waitlist"); return; }
 
   /* doctor — closed loop */
@@ -1821,6 +1880,7 @@ document.addEventListener("click", function(ev){
     save(); render(); toast("Sent to "+S.profile.name+"’s phone");
     return;
   }
+  if(a==="cancel-plan"){ render(); toast("Changes discarded — nothing was sent"); return; }
   if(a==="drop-slot"){
     var ds=el.getAttribute("data-s"), dp=slotOf(ds);
     if(!dp) return;
