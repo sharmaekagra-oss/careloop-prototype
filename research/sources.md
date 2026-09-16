@@ -18,7 +18,15 @@
 - [BusinessToday, "Airtel outage hits major Indian cities" (24 Aug 2025)](https://www.businesstoday.in/amp/india/story/airtel-outage-hits-major-indian-cities-users-report-call-and-internet-disruptions-490838-2025-08-24)
 - [WION News, Airtel outage Aug 2025](https://www.wionews.com/india-news/airtel-network-outage-hits-multiple-cities-in-india-bengaluru-hyderabad-and-chennai-worst-affected-1756034640037)
 - [The Tribune, "Airtel network disruptions affect thousands across India" (Jun 2026)](https://www.tribuneindia.com/news/business/airtel-network-disruptions-affect-thousands-across-india/)
-- [teamblind.com thread, "ever found yourself stuck with no cash no card and upi down"](https://www.teamblind.com/post/ever-found-yourself-stuck-with-no-cash-no-card-and-upi-down-rhvojmm0)
+- [teamblind.com thread, "ever found yourself stuck with no cash no card and upi down" — commenters u/SDEnewgrad (Amazon) and u/Pawanputra (AMD), both Apr 4 2025](https://www.teamblind.com/post/ever-found-yourself-stuck-with-no-cash-no-card-and-upi-down-rhvojmm0)
+
+## User-forum ethnography (verbatim in `pasted_sources.md`)
+- **r/india** — "What do you do when your UPI payments are stuck." OP u/budamtass (2022-2023). Top comments: u/kibafiv231 (95↑), u/Radiant-Alarm6404 (65↑), u/No-Pick5821 (16↑, workaround via Amazon Pay Balance), u/jarvis123451254 (UPI Lite failure).
+- **r/india** — "UPI Down in India: Outage disrupts financial services across country" (~Sep 2025 megathread, 171↑, 22 comments). The Bengaluru cohort-inflection quote ("pani puri wala 200m from my house refuses cash payments") is here.
+- **r/india** — "UPI goes dark, bringing India's digital payments to a sudden halt" (~Feb 2026 megathread, 625↑, 45 comments). u/arv66 (31↑) NIC infra critique; u/165cm_man (311↑); u/Sea_Pair_1273 (-387).
+- **r/IndiaTech** — "🚨 India is developing offline UPI payments" (~Jul 2026, 335↑). u/yogthinks (95↑): UPI Lite X limits critique. u/enz3: awareness gap.
+- **r/personalfinanceindia** — "How much cash do you guys carry in your wallet?" (2y old, 447 comments). u/mrdrinksonme (303↑ — top): "₹500 note I haven't touched in like 2 years." u/lekdid (61↑), u/Grand_Collection3152 (51↑, merchants refuse cash), plus a cluster of "What wallet?" / "Zero" / "Cash? What does it mean?" responses.
+- **r/personalfinanceindia** — "WHATS YOUR PREFERRED PAYMENT METHOD?" (1y old). One respondent explicitly names UPI Lite pre-loading as a backup habit — evidence of the aware minority.
 
 ## Regulator signals
 - [Business Standard, "RBI enhances UPI Lite wallet limits, updates offline payments framework" (Dec 2024)](https://www.business-standard.com/finance/news/rbi-enhances-upi-lite-wallet-limits-updates-offline-payments-framework-124120401144_1.html)
