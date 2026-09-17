@@ -2,406 +2,117 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>The Petrol-Pump Lockout</title>
+<title>A payment I couldn't make</title>
 <style>
-  @page {
-    size: A4;
-    margin: 14mm 16mm 14mm 16mm;
-  }
-
-  :root {
-    --ink: #16181d;
-    --muted: #5a6270;
-    --line: #d4d7dd;
-    --accent: #7a1e2a;
-  }
-
+  @page { size: A4; margin: 18mm 20mm 18mm 20mm; }
   html, body {
-    margin: 0;
-    padding: 0;
-    color: var(--ink);
-    background: #ffffff;
+    margin: 0; padding: 0;
+    color: #111;
+    background: #fff;
     font-family: "Bitstream Charter", "Charter", "Georgia", serif;
-    font-size: 9.4pt;
+    font-size: 10pt;
     line-height: 1.32;
   }
-
-  h1, h2, h3, h4 {
-    font-family: "Liberation Sans", "Helvetica", sans-serif;
-    color: var(--ink);
-    margin: 0 0 4px 0;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  h1 {
-    font-size: 20pt;
-    line-height: 1.1;
-    margin-bottom: 2px;
-  }
-
-  h2 {
-    font-size: 11.5pt;
-    margin-top: 8px;
-    padding-bottom: 2px;
-    border-bottom: 0.5pt solid var(--line);
-  }
-
-  h3 {
-    font-size: 10pt;
-    margin-top: 6px;
-    color: var(--accent);
-    font-weight: 700;
-  }
-
-  p { margin: 0 0 4px 0; text-align: justify; hyphens: auto; }
-
-  a { color: var(--ink); text-decoration: none; border-bottom: 0.5pt dotted var(--muted); }
-
+  h1 { font-size: 14pt; font-weight: 700; margin: 0 0 2px 0; letter-spacing: 0; }
+  h2 { font-size: 10.5pt; font-weight: 700; margin: 8px 0 2px 0; }
+  p { margin: 0 0 5px 0; text-align: justify; hyphens: auto; }
   em { font-style: italic; }
-  strong { font-weight: 600; }
-
-  .page {
-    page-break-after: always;
-    padding: 0;
-  }
-  .page:last-child { page-break-after: auto; }
-
-  .kicker {
-    font-family: "Liberation Sans", sans-serif;
-    font-size: 7.5pt;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 3px;
-  }
-
-  .subtitle {
-    font-family: "Bitstream Charter", "Georgia", serif;
-    font-style: italic;
-    font-size: 10pt;
-    color: var(--muted);
-    margin: 0 0 2px 0;
-  }
-
-  .byline {
-    font-family: "Liberation Sans", sans-serif;
-    font-size: 8pt;
-    color: var(--muted);
-    margin: 4px 0 6px 0;
-    border-top: 0.5pt solid var(--line);
-    border-bottom: 0.5pt solid var(--line);
-    padding: 2px 0;
-  }
-
-  .log {
-    font-family: "Liberation Mono", "Courier New", monospace;
-    font-size: 8.4pt;
-    line-height: 1.35;
-    background: #fafafa;
-    border-left: 2pt solid var(--accent);
-    padding: 5px 9px;
-    margin: 4px 0 5px 0;
-  }
-  .log .t { color: var(--accent); font-weight: 700; margin-right: 5px; }
-  .log .row { margin-bottom: 0; }
-
-  blockquote {
-    margin: 3px 0 4px 0;
-    padding: 4px 10px;
-    border-left: 2pt solid var(--muted);
-    font-style: italic;
-    color: var(--ink);
-    background: #f6f6f7;
-    font-size: 9.2pt;
-    line-height: 1.32;
-  }
-  blockquote cite {
-    display: block;
-    font-style: normal;
-    font-family: "Liberation Sans", sans-serif;
-    font-size: 7.5pt;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  ul, ol { margin: 2px 0 4px 0; padding-left: 16px; }
-  li { margin-bottom: 1px; }
-
-  .footnote {
-    font-size: 7.4pt;
-    color: var(--muted);
-    line-height: 1.28;
-    border-top: 0.5pt solid var(--line);
-    padding-top: 3px;
-    margin-top: 6px;
-  }
-  .footnote sup { color: var(--accent); font-weight: 700; }
-
-  sup.ref {
-    font-family: "Liberation Sans", sans-serif;
-    font-size: 7pt;
-    color: var(--accent);
-    font-weight: 700;
-    vertical-align: super;
-    line-height: 0;
-    margin-left: 1px;
-  }
-
-  table.pain {
-    border-collapse: collapse;
-    margin: 4px 0;
-    font-family: "Liberation Sans", sans-serif;
-    font-size: 8.5pt;
-    width: 100%;
-    line-height: 1.3;
-  }
-  table.pain th, table.pain td {
-    padding: 3px 7px;
-    border-bottom: 0.5pt solid var(--line);
-    text-align: left;
-    vertical-align: top;
-  }
-  table.pain th {
-    background: #f0f1f3;
-    font-weight: 600;
-  }
-  table.pain .score {
-    font-family: "Liberation Mono", monospace;
-    font-weight: 700;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-
-  .callout {
-    background: #fdf6d9;
-    border: 0.5pt solid #d9c98b;
-    padding: 4px 9px;
-    margin: 5px 0;
-    font-size: 9pt;
-    line-height: 1.32;
-  }
-  .callout strong { color: #6b5300; }
-
-  .verdict {
-    background: #eef4ee;
-    border: 0.5pt solid #a3c1a4;
-    padding: 5px 10px;
-    margin: 6px 0 4px 0;
-    font-size: 9.5pt;
-  }
-  .verdict strong { color: #2f5233; }
-
-  .placeholder {
-    background: repeating-linear-gradient(45deg, #fff6d6, #fff6d6 6px, #fbecb2 6px, #fbecb2 12px);
-    border: 0.75pt dashed #b09030;
-    padding: 4px 9px;
-    margin: 4px 0;
-    font-size: 8.5pt;
-    color: #6b5300;
-  }
-
-  .tight { margin-top: 4px; margin-bottom: 4px; }
-  .small { font-size: 8.5pt; color: var(--muted); }
+  .subhead { font-size: 10.5pt; font-style: italic; color: #333; margin: 0 0 4px 0; }
+  .byline { font-size: 9.5pt; color: #333; margin: 0 0 14px 0; }
+  hr { border: none; border-top: 0.5pt solid #999; margin: 14px 0; }
+  .section { page-break-after: always; }
+  .section:last-child { page-break-after: auto; }
+  .footer-note { font-size: 8.5pt; color: #444; border-top: 0.5pt solid #999; padding-top: 4px; margin-top: 16px; }
+  ol, ul { margin: 4px 0 10px 0; padding-left: 22px; }
+  li { margin-bottom: 3px; }
 </style>
 </head>
 <body>
 
-<!-- ============ PAGE 1: INCIDENT ============ -->
-<section class="page">
-  <div class="kicker">MICA · PLM:ES Mid-Term · PLC-1 · Autoethnography</div>
-  <h1>The Petrol-Pump Lockout</h1>
-  <p class="subtitle">One afternoon, one bike, one queue, one SIM — and what breaks when the world's largest real-time payment system meets the world's most fragile last mile.</p>
-  <div class="byline">Ekagra Sharma · sharma.ekagra@gmail.com · MICA PLM:ES · Sep 2026</div>
+<!-- Page 1 -->
+<section class="section">
+<h1>A payment I couldn't make</h1>
+<p class="subhead">A late mid-term about the offline gap in India's UPI stack.</p>
+<p class="byline">Ekagra Sharma. MICA, PLM:ES. September 2026.</p>
 
-  <h2>What this is</h2>
-  <p>An incident log, then an argument. I am the subject and the researcher. <strong>Autoethnography</strong> is a qualitative method in which the researcher's own experience is treated as data and examined against external evidence.<sup class="ref">1</sup> What follows is one afternoon. Timestamps are approximate; the sequence is not.</p>
+<p>I ran out of petrol on my bike on the way back to campus. The intersection I was near didn't really have a pedestrian crossing, so I ended up pushing the bike across the junction while cars routed around me. I got to the pump on the other side and asked for two hundred rupees. The attendant nodded. I opened Google Pay, scanned the QR, and got "cannot connect." My signal bar said "No SIM." The phone had lost the SIM mid-transaction, and it wasn't a network problem but the phone itself. There was a queue of three people behind me. I asked the man on the scooter directly behind if he'd share his hotspot. He did. I VoIP-called a friend, explained, and he transferred the two hundred to the attendant on his own UPI. I owed him. The queue moved on.</p>
 
-  <h2>The log</h2>
-  <div class="log">
-    <div class="row"><span class="t">15:40</span>Tank empties on the flyover approaching the petrol pump. Bike coasts.</div>
-    <div class="row"><span class="t">15:44</span>I get off and push. The pedestrian crossing on the flyover intersection does not exist. Cars route around me. I keep walking.</div>
-    <div class="row"><span class="t">15:52</span>Pump. Attendant nods. Fill ₹200.</div>
-    <div class="row"><span class="t">15:55</span>Open GPay. QR scan. <em>"Cannot connect."</em></div>
-    <div class="row"><span class="t">15:56</span>Signal indicator: <em>"No SIM."</em> Mid-transaction. This is not the network. This is the phone.</div>
-    <div class="row"><span class="t">15:57</span>Queue behind me: three deep. Attendant looks at me. I look at the attendant.</div>
-    <div class="row"><span class="t">15:58</span>Ask the man behind for a hotspot. He gives it. VoIP call to a friend.</div>
-    <div class="row"><span class="t">16:01</span>Friend pays ₹200 to the attendant on his own UPI. I owe him. Queue moves on.</div>
-    <div class="row"><span class="t">16:20</span>Mobile repair shop. <em>"CPU problem. ₹3,000. Two days."</em></div>
-    <div class="row"><span class="t">16:22</span>I borrow an ejector pin. Swap SIM slots. Signal returns. Cost: zero.</div>
-  </div>
+<p>I stopped at a mobile repair shop on the way home. The man there took about two minutes with the phone and told me the CPU had gone. Three thousand rupees, two days. I don't know exactly why I asked him for an ejector pin, but I did. He handed one over. I ejected the SIM, moved it to the other tray, and the signal came back. I paid him nothing and rode home.</p>
 
-  <h2>The five failed fallbacks</h2>
-  <p>Between 15:56 and 16:01, I ran through my mental map of alternatives. Each one had already lost:</p>
-  <ol class="tight">
-    <li><strong>Cash.</strong> I didn't have any. I don't carry any.</li>
-    <li><strong>Debit card.</strong> I don't own one that I use day-to-day.</li>
-    <li><strong>UPI Lite.</strong> I hadn't loaded it. I barely knew it existed.</li>
-    <li><strong>UPI 123Pay.</strong> I didn't know what it was.</li>
-    <li><strong>A stranger.</strong> The one that worked. Not a product. A social act.</li>
-  </ol>
+<p>Four separate things went wrong that afternoon. A missing pedestrian crossing on a busy junction. A phone that couldn't detect its own SIM. A repair shop willing to bill me three thousand rupees for a fix that took a minute. And a payment stack that had no fallback of its own once the SIM was out. Three of those are somebody else's specialty to solve. The fourth is the one I ended up choosing to write about, because it's the one I had quietly built into my own life without noticing. I don't carry cash. I don't have a debit card I use day to day. I hadn't loaded UPI Lite. I didn't really know what UPI 123Pay was, though I do now. When the SIM went, I had nothing.</p>
 
-  <h2>What this document is about</h2>
-  <p>Four problems interlock in this one incident: pedestrian infrastructure, mid-transaction payment lockout, repair-shop overquoting, and my own single-rail dependency. Three of them belong to other people's specialties. <strong>The fourth — the payment lockout — is the structural one.</strong> India built the world's largest real-time payments system on top of one SIM, one signal, one phone.<sup class="ref">2</sup> This is what happens when that stack fails, and what happens next is what the rest of this document is about.</p>
-
-  <div class="footnote">
-    <sup>1</sup> Ellis, Adams, &amp; Bochner, "Autoethnography: An Overview" (2011). Method acknowledged in Session 4 (Digital Research) as one of the qualitative modes where researcher-as-instrument is legitimate; the discipline is in triangulating personal experience against external evidence, which is what pages 3–4 do.
-    &nbsp;&nbsp;<sup>2</sup> UPI accounted for <strong>85.5%</strong> of India's digital-payment transaction volume in H2 2025 (RBI); ~22.7 billion monthly transactions in Jun 2026 (NPCI). See <em>sizing_data.md</em>.
-  </div>
+<p>This document treats my afternoon as a starting point rather than a conclusion. I've cross-checked it against what other people in similar situations are doing, what the Reserve Bank and NPCI have been building since 2022, and what still isn't reaching the person at the counter. URLs and raw material are in research/sources.md and research/pasted_sources.md respectively. On page 4 I explain, up front, that I did not conduct voice-note interviews for this submission, and the reasoning behind that.</p>
 </section>
 
-<!-- ============ PAGE 2: JTBD, PAIN, KILLED HYPOTHESIS ============ -->
-<section class="page">
-  <div class="kicker">Page 2 · The Job, The Pain, The Wrong Answer</div>
+<!-- Page 2 -->
+<section class="section">
+<h2>Who this is for, and what they're trying to do</h2>
 
-  <h2>Target customer</h2>
-  <p>The young urban Indian who has stopped carrying cash. Concentrated in metros and Tier-2 cities. One smartphone, one SIM (increasingly eSIM), one bank-linked UPI. Uses GPay or PhonePe as primary; Paytm as backup on the same rails. Estimated <strong>~30–50 million at the sharpest edge</strong> (tech workers, students, urban professionals whose default wallet contains no cash), inside a broader UPI-primary segment of ~200–300 million within India's 500M+ unique UPI users.<sup class="ref">3</sup> This is not the average Indian. It is a specific cohort — the one that has run furthest ahead of cash.</p>
+<p>The person I mean is someone like me. Late twenties, urban, one smartphone, one SIM (often an eSIM now), one bank account linked to UPI. Uses GPay or PhonePe by default and Paytm as a backup on the same rails. Doesn't carry cash. India has around 500 million unique UPI users. The cohort I care about is probably 30 to 50 million at the sharpest edge and another 200 to 300 million behind them; I don't want to pretend the number is more precise than that.</p>
 
-  <h2>Jobs-to-be-Done <span class="small">— Session 3, Abhay Jani: situation → motivation → outcome</span></h2>
-  <ul class="tight">
-    <li><strong>Functional.</strong> <em>When</em> my primary payment rail (SIM → data → UPI) fails at the point of transaction, <em>I want to</em> complete the transaction anyway, <em>so I can</em> finish what I was doing without stopping.</li>
-    <li><strong>Emotional.</strong> <em>When</em> my rail fails in front of a queue, <em>I want to</em> not feel powerless over my own money, <em>so I can</em> stop the moment from becoming the memory of the transaction. (A netizen quoted in Deccan Herald put it precisely: <em>"no control over our own money."</em><sup class="ref">4</sup>)</li>
-    <li><strong>Social.</strong> <em>When</em> the rail fails in public, <em>I want to</em> not have to ask a stranger for a hotspot or beg a friend on WhatsApp, <em>so I can</em> stop the transaction from becoming a favour I now owe.</li>
-  </ul>
+<p>The job they're trying to do, in the situation-motivation-outcome frame from the opportunity-identification session, is this: when the primary payment rail (SIM, data, UPI) fails at the moment of transaction, they want to finish the transaction anyway, without stopping, asking for help, or holding up a queue. Functionally that means a payment method that doesn't ride the same rail. Emotionally, not feeling powerless at the counter. Socially, not being the person asking a stranger for a hotspot. The trigger inside the situation is worth pulling out: it isn't the moment the SIM fails, it's the moment the customer scans and sees the failure message with the attendant already watching. That's the sharp edge, and it's what the product would have to address.</p>
 
-  <h2>Pain sizing <span class="small">— Session 3, painkiller ranking</span></h2>
-  <table class="pain">
-    <thead><tr><th>Axis</th><th>Score</th><th>Evidence base</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>Frequency</td>
-        <td class="score">4 / 5</td>
-        <td>Individually, several times per year for the cohort. Collectively: three UPI outages in 17 days (26 Mar, 2 Apr, 12 Apr 2025). Jio Sep 2024. Airtel Feb &amp; Aug 2025. Airtel Jun 2026.<sup class="ref">5</sup></td>
-      </tr>
-      <tr>
-        <td>Intensity</td>
-        <td class="score">5 / 5</td>
-        <td>Mid-transaction. Socially visible. No fallback for the decoupled-from-cash cohort. See the two named commuters below.</td>
-      </tr>
-      <tr>
-        <td>Willingness to pay</td>
-        <td class="score">3 / 5</td>
-        <td>Spiky, not steady. In the moment users would pay anything. Retrospectively they underestimate frequency — Session 4's <strong>say-do gap.</strong> Honest score.</td>
-      </tr>
-      <tr>
-        <td><strong>Composite</strong></td>
-        <td class="score"><strong>12 / 15</strong></td>
-        <td><strong>Painkiller</strong>, not vitamin (Session 5).</td>
-      </tr>
-    </tbody>
-  </table>
+<h2>Sizing the pain, axis by axis</h2>
 
-  <h2>Non-consumption observation <span class="small">— Session 3, strong signal</span></h2>
-  <blockquote>
-    "Aariz Ahmed said he was frustrated to have to get down mid-journey just because he didn't have cash, as he usually never carries cash and solely depends on digital payments."
-    <cite>— The Hindu-Bengaluru, 11 May 2024, reporting on the BMTC airport-bus UPI outage.<sup class="ref">6</sup></cite>
-  </blockquote>
-  <p>A named commuter, in a mainstream Indian daily, confessing to non-consumption of cash. Not a fringe view: on r/personalfinanceindia's <em>"how much cash do you carry?"</em> thread (447 comments), the top-voted answer at <strong>303 upvotes</strong> is <em>"₹500 note that I haven't touched in like 2 years"</em> (u/mrdrinksonme). The next-tier answers cluster around <em>"What wallet?"</em> (u/Do_You_Remember_2020, 19), <em>"Cash? What does it mean?"</em> (u/Vicky_Ashok), <em>"Zero"</em> (u/Party-Bet-4003). Aariz Ahmed is the visible edge of a large, growing cohort.</p>
+<p>Frequency is a four on five for the cohort. Mar-Apr 2025 had three UPI outages in seventeen days: 26 March, 2 April, 12 April. The 12 April outage was five hours long and affected all three major apps at once. Carrier outages happen a few times a year on top of that (Jio in September 2024, Airtel in February and August 2025). Individual SIM failures are the most frequent and least documented layer.</p>
 
-  <h2>Killed hypothesis <span class="small">— Session 4, the research-over-assumptions test</span></h2>
-  <p>Before I did the ethnography, my hypothesis was <strong>"this is a repair-shop-trust problem"</strong> — anchored to the ejector-pin moment (₹3,000 quote for a fix that cost me nothing). I was going to write about mechanic overquoting.</p>
-  <p>Two pieces of evidence killed it:</p>
-  <ol class="tight">
-    <li>The digital ethnography (page 3) surfaced <strong>repeating, named, dated</strong> payment-lockout stories from mainstream Indian press across 2024–2026. Repair overquotes are anecdotal. Payment lockouts are structural.</li>
-    <li>The regulator is fixing the payment problem, not the repair problem. RBI and NPCI have both publicly named this, and are building rails for it (page 4). When the regulator agrees with your problem, you have picked the right problem.</li>
-  </ol>
-  <p>The repair-shop story survives as page 1's ejector-pin punchline. It is where I began. It is not what I ended up with.</p>
+<p>Intensity is a five on five. Failure hits mid-transaction, in front of others, with no clean fallback for someone who doesn't carry cash. The two named commuters in the May 2024 BMTC bus story in Bengaluru, Rajesh Kumar and Aariz Ahmed, both had to disembark and hail an auto because they had no cash. Aariz's line to The Hindu-Bengaluru was that he "usually never carries cash and solely depends on digital payments."</p>
 
-  <div class="footnote">
-    <sup>3</sup> 500M+ unique UPI users (RBI report cited via CoinLaw, IBEF, 2026). Cohort estimate is my own extrapolation from the "decoupled from cash" segment implied by the RBI Cash Usage Indicator (Q1 2024: 52–60% consumer expenditure via cash, down from 81–86% in Q1 2021).
-    &nbsp;&nbsp;<sup>4</sup> Deccan Herald, "'Cash is always king': UPI down again, netizens share anecdotes," Apr 2025.
-    &nbsp;&nbsp;<sup>5</sup> Full outage timeline with URLs in <em>research/outage_coverage.md</em>.
-    &nbsp;&nbsp;<sup>6</sup> Reported by Darshan Devaiah B for The Hindu-Bengaluru, 10–11 May 2024; carried in The Hindu print and X/Twitter (@THBengaluru).
-  </div>
+<p>Willingness to pay is more careful. In the moment, users would pay almost anything. Retrospectively they underestimate frequency; that's the say-do gap from the digital-research session. A monthly subscription for insurance-against-this is a hard sell; a small per-transaction charge or a pre-loaded float is easier. Three on five feels honest. Composite twelve on fifteen, which puts it inside painkiller territory.</p>
+
+<h2>Non-consumption at scale</h2>
+
+<p>Aariz's line is one data point in a mainstream paper. The larger version, at forum scale, is on r/personalfinanceindia, in a two-year-old thread called "How much cash do you guys carry in your wallet?" with 447 comments. The top comment, 303 upvotes, is a user called mrdrinksonme who says he has a ₹500 note he hasn't touched in two years. Below it are a cluster of similar answers: "what wallet?", "zero", "cash? what does that mean?". These aren't fringe answers on that thread. They're the top of it.</p>
+
+<h2>A hypothesis I nearly wrote about instead</h2>
+
+<p>My first thought after the afternoon was that the interesting problem was the repair shop. The three thousand rupees versus the ejector pin. I sat with that for a day. Two things pulled me off it. When I started digging for other people's stories, the ones I kept finding were about payment lockouts, not repair overquotes. And RBI plus NPCI have been quietly building offline payment rails for four years without landing them at scale, which means the problem is real, big, unsolved, and known to the regulator. Nobody at that level is working on the repair shops.</p>
 </section>
 
-<!-- ============ PAGE 3: EVIDENCE + ALTERNATIVES ============ -->
-<section class="page">
-  <div class="kicker">Page 3 · Evidence &amp; Alternatives</div>
+<!-- Page 3 -->
+<section class="section">
+<h2>What I found while looking</h2>
 
-  <h2>Method note <span class="small">— Session 4</span></h2>
-  <p>Digital ethnography across 2024–2026: mainstream Indian press, journalist-aggregated netizen anecdotes, three user-forum threads (r/india, r/personalfinanceindia, r/IndiaTech), and a tech-workers forum (teamblind). Verbatim quotes and thread metadata in <em>research/pasted_sources.md</em>. Every claim URL-cited in <em>research/sources.md</em>. Two conversational interviews on page 4.</p>
+<p>Mainstream Indian press. Beyond the BMTC bus story used above, Deccan Herald ran two pieces during the April 2025 UPI outages that collected netizen reactions. Users joked on social media that they had "cleaned vessels at the restaurant" to work off unpayable bills. One user compared themselves to the RBI Governor because "we have no control over our own money." Both pieces are lightly written but the aggregated quotes are real and dated.</p>
 
-  <h2>Evidence — named, dated, cited</h2>
-  <ol class="tight">
-    <li><strong>The Bangalore BMTC bus, 10–11 May 2024.</strong> Two-day UPI failure on BMTC's Canara-Bank-backed ETMs on airport routes. Two named commuters quoted in The Hindu-Bengaluru: <strong>Rajesh Kumar</strong> (forced to disembark and hail an auto because he had no cash) and <strong>Aariz Ahmed</strong> (non-consumption quote, page 2).</li>
-    <li><strong>A tech worker at a petrol pump — teamblind, Apr 4, 2025.</strong> Posted <em>48 hours after the 2 Apr UPI outage, 8 days before the ~5-hour 12 Apr outage.</em> OP: <em>"I'm at the petrol pump, asking for ₹10, and guess what? I had NOTHING on me, no cash, no card, and UPI was down! I tried it all, Google Pay, Paytm… I called a couple of friends, and they were all stuck too."</em> Two commenters (Amazon SDE, AMD engineer, both same day) confirm the pattern. <em>Exact same failure as my page-1 incident, exact same target cohort, same-week outage window.</em><sup class="ref">7</sup></li>
-    <li><strong>The Bengaluru cohort-inflection quote — r/india, ~Sep 2025 outage megathread.</strong> <em>"in Bengaluru UPI is used to the extent that 9 times out of 10 if you try to pay with cash you will be denied. Everything in the city from buying a bus ticket to unlocking e-bike like Yulu runs on UPI conpletely. Even the pani puri wala 200m from my house refuses cash payments."</em> Cash-as-fallback has broken from both ends — the cohort has stopped carrying it AND merchants have stopped accepting it.</li>
-    <li><strong>The three UPI outages of Mar–Apr 2025.</strong> 26 Mar → 2 Apr → 12 Apr. NPCI RCA blamed PSP banks flooding "check transaction status" APIs. Deccan Herald compilations: netizens joking about <em>"cleaned vessels at the restaurant"</em>, another comparing themselves to the RBI Governor with <em>"no control over our own money."</em><sup class="ref">8</sup></li>
-    <li><strong>Airtel, 24 Aug 2025.</strong> 6,800+ Downdetector complaints at peak. <strong>52% "No Signal."</strong> Six metros affected. Plus Jio Sep 2024, Airtel Feb 2025 &amp; Jun 2026. Every telecom outage is a payment lockout.<sup class="ref">9</sup></li>
-  </ol>
+<p>Teamblind, the anonymous tech-workers forum. A post from 4 April 2025, forty-eight hours after the second UPI outage that month and eight days before the third, reads: <em>"So yesterday, I'm at the petrol pump, asking for ₹10, and guess what? I had NOTHING on me, no cash, no card, and UPI was down. I tried it all, Google Pay, Paytm, you name it, but nothing worked. I called a couple of friends, and they were all stuck too."</em> Two commenters agreed the same day. One works at Amazon, the other at AMD. Same cohort as me, telling the same story, in the same week the outages were on the front page.</p>
 
-  <h2>The workarounds are the signal <span class="small">— Session 4</span></h2>
-  <p>Session 4 taught us that workarounds and non-consumption are the strongest opportunity signals. Here is the map, with Delta 4 scores (Session 5, Kunal Shah — a new solution must beat the old way by at least 4 points on 10 for an irreversible switch):</p>
+<p>Reddit, r/india, on a September 2025 outage megathread. One commenter about Bengaluru: <em>"In Bengaluru UPI is used to the extent that 9 times out of 10 if you try to pay with cash you will be denied. Everything from buying a bus ticket to unlocking a Yulu bike runs on UPI completely. Even the pani puri wala 200m from my house refuses cash payments."</em> This is more than non-consumption of cash on the consumer side. It's merchants refusing to take it. The fallback has broken from both ends.</p>
 
-  <table class="pain">
-    <thead><tr><th>Existing alternative</th><th>Delta 4</th><th>Why it fails in the moment</th></tr></thead>
-    <tbody>
-      <tr><td>Hotspot from stranger + VoIP + friend-pays-on-my-behalf</td><td class="score">~3 / 10</td><td>The de-facto product today. Needs a stranger, willingness, a friend awake, trust, time. Embarrassing, slow, socially exposing. <em>What I did.</em></td></tr>
-      <tr><td>Cash</td><td class="score">~7 / 10</td><td>Works — but the target cohort has stopped carrying it. Cash share of consumer spend: 52–60% in Q1 2024, down from 81–86% in Q1 2021 (RBI Cash Usage Indicator).</td></tr>
-      <tr><td>UPI Lite (₹1,000 per-txn, ₹5,000 wallet after Dec 2024)</td><td class="score">~6 / 10</td><td>Must be pre-loaded <em>while online</em>. Live since 2022 and still not the mental default. u/enz3, r/IndiaTech: <em>"oh there's such a thing? I have upi lite, but that also needs internet."</em></td></tr>
-      <tr><td>UPI Lite X (NFC tap-to-pay, offline)</td><td class="score">~5 / 10</td><td>Live since ~2023 but hobbled. Offline caps: <strong>₹500 per-txn / ₹4,000 daily.</strong> u/yogthinks, r/IndiaTech (95↑): <em>"too small for most merchant use cases beyond chai and tickets."</em> NPCI's 2026 NFC PoS rollout targets ₹2,000 but is not yet consumer-facing.</td></tr>
-      <tr><td>UPI 123Pay (IVR / missed-call / OEM / sound)</td><td class="score">~4 / 10</td><td>Built for the 400M feature-phone segment. High friction for smartphone users; near-zero urban uptake.</td></tr>
-      <tr><td>HDFC OfflinePay</td><td class="score">~5 / 10</td><td>One bank. Limited rollout. Not cross-bank.</td></tr>
-    </tbody>
-  </table>
+<p>Reddit, r/IndiaTech, on a July 2026 thread about offline UPI being developed. A user going by yogthinks, with 95 upvotes, wrote what I think is the sharpest single sentence I found in the whole research pass: <em>"UPI Lite X already does this since 2023, NFC-based tap and pay for small amounts even with no data connection. Real gap is the limits: ₹500 per transaction and ₹4,000 a day, too small for most merchant use cases beyond chai and tickets."</em> A user diagnosing why the regulator's own fix hasn't reached scale.</p>
 
-  <div class="callout">
-    <strong>Delta 4 verdict.</strong> The offline rail exists — UPI Lite (needs online pre-load) and UPI Lite X (NFC, ₹500 per-txn / ₹4,000 daily offline cap). But its caps are calibrated for chai and tickets — <em>u/yogthinks names this explicitly.</em> Delta over the "hotspot-a-stranger + friend pays" workaround: only ~3. Not enough for irreversible switch (Session 5). <strong>The opportunity is a version calibrated for the actual failure moment — a petrol-pump refill, an autorickshaw ride, a queue at a supermarket. Offline caps in the ₹2,000–₹5,000 range clear Delta 4.</strong>
-  </div>
+<h2>What people already do when it happens</h2>
 
-  <div class="footnote">
-    <sup>7</sup> teamblind.com thread <em>rhvojmm0</em>, "ever found yourself stuck with no cash no card and upi down." Commenters u/SDEnewgrad (Amazon, Apr 4 2025) and u/Pawanputra (AMD, Apr 4 2025). Verbatim in <em>pasted_sources.md</em>.
-    &nbsp;&nbsp;<sup>8</sup> Deccan Herald: <em>"'Cleaned vessels at restaurant': UPI down in India, netizens up their meme game"</em>; and <em>"'Cash is always king': UPI down again."</em> NPCI RCA via MediaNama and India TV News, Apr 2025.
-    &nbsp;&nbsp;<sup>9</sup> BusinessToday, WION News, 24 Aug 2025. Full outage timeline in <em>outage_coverage.md</em>.
-  </div>
+<p>Cash works but the cohort doesn't carry it. UPI Lite has to be pre-loaded while online and awareness is low; a commenter called u/enz3 on the IndiaTech thread wrote, "oh there's such a thing? I have upi lite, but that also needs internet," which is the awareness gap in one sentence. UPI Lite X exists but its offline caps are the yogthinks problem. UPI 123Pay works but is designed for feature phones, not urban smartphone users. HDFC's OfflinePay has RBI approval but is a single bank.</p>
+
+<p>The workaround that actually works, and the one I used, is asking a stranger for a hotspot and calling a friend who then pays the merchant on your behalf. Five steps, socially exposed, dependent on a helpful stranger and a friend picking up. On a ten-point scale of "would I switch to something better if it existed", I'd rate it a three. An offline-first credential (pre-loaded balance, NFC tap-to-pay at any merchant terminal, cryptographically signed, syncing when connectivity returns, cross-bank) would sit at an eight or nine. Axis by axis against the workaround: reliability improves from three to nine, latency from a minute to a second, social exposure from very high to zero, cross-merchant support from ad-hoc to universal. Setup cost is slightly worse (one pre-load moment). Delta of five to six, well past Kunal Shah's four-point threshold for actual habit change. UPI Lite X is trying to be this product; its caps are calibrated for chai stalls, not the transactions people actually get stuck on.</p>
 </section>
 
-<!-- ============ PAGE 4: OPPORTUNITY + WHY NOW + GO/NO-GO ============ -->
-<section class="page">
-  <div class="kicker">Page 4 · The Opportunity</div>
+<!-- Page 4 -->
+<section class="section">
+<h2>The opportunity, in one sentence</h2>
 
-  <h2>Product opportunity</h2>
-  <p><strong>A pre-authorised, on-device offline payment credential that spends without SIM, signal, or data at the moment of transaction.</strong> Small pre-loaded balance (cap ~₹2,000, auto-refill when connectivity returns), NFC tap-to-pay to any merchant PoS, cryptographic settlement, PIN-optional for micro-payments. Cross-bank by design. Aimed squarely at <em>"the young urban Indian who has stopped carrying cash and now cannot pay because their SIM died."</em> Distributed pre-emptively — bundled into a super-app or wallet, or as an OS-level integration, not sold in the moment (users don't shop for backup payments while stranded).</p>
+<p>Build, or productize, an offline payment credential aimed at the cashless cohort, with caps that match the transactions people actually make outside their homes. A petrol fill is two hundred to five hundred rupees. An auto ride is around a hundred. A supermarket queue is a thousand to two thousand. Caps in the ₹2,000 to ₹5,000 range, not ₹500. NFC tap-to-pay, small pre-loaded balance that auto-refills when connectivity is available, cryptographically signed, cross-bank. Distributed pre-emptively, because nobody shops for backup payments while stranded.</p>
 
-  <h2>Why now <span class="small">— specific, dated, three convergent shifts</span></h2>
-  <ol class="tight">
-    <li><strong>The regulator publicly agrees.</strong> RBI raised UPI Lite per-txn to ₹1,000 and wallet cap to ₹5,000 in Dec 2024, and updated the offline-payments framework. NPCI is certifying NFC PoS terminals from major manufacturers through 2026; UPI Lite X rollout targeted end-2026. HDFC OfflinePay has RBI approval. <em>The rails are being built.</em></li>
-    <li><strong>The pain is repeated and mainstream-covered.</strong> Three UPI outages in 17 days (Mar–Apr 2025), one of them ~5 hours across all major apps. Airtel Aug 2025 outage: 6,800+ complaints peak. Jio Sep 2024. Airtel Feb 2025 &amp; Jun 2026. The outage narrative gets louder every year.</li>
-    <li><strong>The cohort has inflected.</strong> Cash paradox (RBI Deputy Governor Murmu): digital payments are additive, not substitutive — absolute cash grows but a decoupled-from-cash cohort has emerged and is the fastest-growing user segment. Aariz Ahmed's quote is the leading edge, not the exception.</li>
-  </ol>
-  <p>Any one of these is a plausible "why now." All three converging is the argument.</p>
+<h2>Why now</h2>
 
-  <h2>Conversation map <span class="small">— Session 4: autoethnography + digital ethnography, Mom Test-compliant</span></h2>
-  <p style="font-size:8.9pt;">Session 4 names digital ethnography as a legitimate conversational-research mode when quotes are real, dated, attributable. Every voice below records <em>past behaviour</em>, not hypothetical intent — <strong>nine data points against the brief's 3–5 minimum:</strong></p>
-  <ol class="tight" style="font-size:8.5pt; line-height:1.28;">
-    <li><strong>Rajesh Kumar</strong> and <strong>Aariz Ahmed</strong> — named commuters, The Hindu-Bengaluru, 11 May 2024. Non-consumption + workaround-failure.</li>
-    <li><strong>Teamblind OP</strong> + same-day corroborators <strong>u/SDEnewgrad</strong> (Amazon), <strong>u/Pawanputra</strong> (AMD), 4 Apr 2025. Mid-outage petrol-pump lockout.</li>
-    <li><strong>u/mrdrinksonme</strong> (303↑ top, r/personalfinanceindia) — "₹500 note untouched for 2 years." Non-consumption at scale.</li>
-    <li><strong>Unnamed r/india commenter</strong> — the Bengaluru pani-puri-wala-refuses-cash cohort-inflection quote.</li>
-    <li><strong>u/yogthinks</strong> (95↑, r/IndiaTech) — user-articulated Delta 4 failure of UPI Lite X.</li>
-    <li><strong>Ekagra Sharma</strong> — autoethnographic subject, page 1.</li>
-  </ol>
+<p>Three shifts converge in 2026 that weren't converging even two years ago. First, the regulator has moved on the rails: RBI raised UPI Lite per-transaction limits to ₹1,000 and the wallet cap to ₹5,000 in December 2024, updated the offline payments framework at the same time, and NPCI is now certifying NFC PoS terminals from major manufacturers through 2026, with UPI Lite X's consumer-facing rollout targeted for end-2026. HDFC's OfflinePay has RBI approval. The rails are visibly being built; the calibration and distribution aren't there yet. Second, the outage narrative keeps intensifying: three UPI outages in seventeen days in Mar-Apr 2025 (one of them five hours long), Airtel's August 2025 outage producing 6,800+ Downdetector complaints at peak with 52% citing "no signal." The coverage is now recurring rather than novel. Third, the cohort has inflected. RBI's Cash Usage Indicator shows cash falling from 81-86% of consumer expenditure in Q1 2021 to 52-60% in Q1 2024. RBI Deputy Governor Shirish Chandra Murmu has publicly noted the "cash paradox," in which absolute cash still grows even as its share shrinks; this is a population average hiding a much sharper cohort-level story. The people at the sharp end are the ones I'm writing about.</p>
 
-  <h2>Willingness-to-pay &amp; market size <span class="small">— honest ranges</span></h2>
-  <ul class="tight">
-    <li><strong>Serviceable market:</strong> 30–50M sharpest-edge users (young urban decoupled-from-cash) × payment-fallback events per year. Even at 5 events/user/year that is 150–250M annual "lockout moments."</li>
-    <li><strong>Monetisation shapes:</strong> per-transaction interchange (regulated), premium wallet tier, or B2B distribution (bundled with a phone maker, a bank, a fintech). Direct-to-consumer WTP is thin (users won't shop for this). Distribution-side WTP is real — a bank or phone maker will pay for a differentiated "always-pays" feature.</li>
-    <li><strong>Painkiller vs vitamin</strong> (Session 5): <strong>painkiller.</strong> Composite pain 12/15; social visibility puts it in the "I would pay right now" bracket, even if retrospective WTP is lower.</li>
-  </ul>
+<h2>Sizing and willingness to pay</h2>
 
-  <div class="verdict"><strong>Go / No-Go: GO</strong>, with two risks disclosed.</div>
+<p>Rough numbers. 30 to 50 million people at the sharpest cashless edge, another 200 to 300 million UPI-primary behind them. Even at three payment-lockout moments per person per year, which the 2025 cadence suggests is a floor, that is 90 to 150 million lockout events annually. Two pricing hypotheses to test in the next phase: a ₹1 to ₹2 per-transaction charge on the offline rail (monetises only when it saves someone), or a ₹49-per-month floor for always-available coverage aimed at people who have been burned before. Neither is a commitment; both need testing with the cohort before pricing.</p>
 
-  <h3>Risk 1 — NPCI is building this.</h3>
-  <p>UPI Lite X + NFC PoS certification lands on the exact scope described above. A neutral startup opportunity therefore <em>cannot</em> be a fresh payment rail. It can be an <strong>experience and adoption layer</strong> — invisible-by-default, cross-bank, pre-authorised, bundled into distribution channels users already use. This is a design + distribution play, not a payment-rail play.</p>
+<h2>Method note, and the interviews I did not do</h2>
 
-  <h3>Risk 2 — Distribution is pre-emptive, not in-the-moment.</h3>
-  <p>Users don't shop for offline payments while stranded. Distribution has to piggyback on OEM pre-installs, bank-onboarding flows, or super-app defaults. If either risk cannot be de-risked in the next 12 weeks of primary research (5 stakeholder conversations with a bank, an OEM, and NPCI-adjacent product folks; a paper prototype tested with 15 users in the same cohort), <strong>revise to No-Go and revisit.</strong></p>
+<p>I did not conduct voice-note interviews for this mid-term. The brief asks for three to five user conversations. I relied on digital ethnography as the digital-research session defined it, which is Reddit, Play Store, Twitter, and journalist-aggregated netizen anecdotes, filtered so the quotes are real, dated, and attributable and every voice records past behaviour rather than intent. Six voices are cited above, all named or attributable, plus my own incident. Rajesh Kumar and Aariz Ahmed in The Hindu-Bengaluru; the teamblind poster and the two same-day commenters, SDEnewgrad at Amazon and Pawanputra at AMD; u/mrdrinksonme's 303-upvote top comment on r/personalfinanceindia; the unnamed r/india commenter with the Bengaluru pani puri quote; and yogthinks on the UPI Lite X caps.</p>
 
-  <div class="footnote">
-    All URLs and citations in <em>research/sources.md</em>. Every named person, statistic, date, and outage in this document is traceable to a public source. Nothing in this document was fabricated.
-    <br>Frameworks applied by name: Session 3 (Opportunity ID) — JTBD situation-motivation-outcome, painkiller ranking, non-consumption signal, workaround signal. Session 4 (Digital Research) — Mom Test, say-do gap, digital ethnography, autoethnography, killed hypothesis. Session 5 (Ideation) — Delta 4 (Kunal Shah), painkiller vs vitamin.
-  </div>
+<p>The substitution costs something. Interviews would have let me push back when someone said something that sounded like what they thought I wanted to hear, and would have tested behaviours that don't reach public forums. That's next-phase work. Not doing them for this submission is a choice, not an oversight, and I want to be clear about it here rather than defend it later.</p>
+
+<h2>Go, with two risks</h2>
+
+<p>I think this is worth pursuing, with two risks I want to be honest about. NPCI is already building the thing I described; UPI Lite X plus the 2026 NFC PoS certification is on the same scope. The startup opportunity therefore isn't the payment rail itself but the layer above it — the caps calibration, the distribution channel, the user experience, the cross-bank consistency, and the pre-emptive install. That's a design and distribution problem more than a payments-engineering one, and it needs an unfair advantage on distribution (OEM partnership, super-app slot, bank onboarding integration) to work. The second risk is that this is a pre-emptive product; users don't shop for offline payments while stranded, so distribution has to piggyback on defaults. Any strategy assuming users will come looking is wrong.</p>
+
+<p>Both risks are testable inside twelve weeks: five voice-note interviews with the cohort about their most recent payment-lockout story, two conversations with product folks at a mid-sized bank and an OEM, and a paper-prototype test of the pre-emptive install flow with fifteen users. If either risk hardens I stop and rewrite. If both soften, the next document is a build spec.</p>
 </section>
 
 </body>
