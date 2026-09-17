@@ -2,369 +2,248 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>EmerGent — 90-day plan to first 10 customers</title>
+<title>EmerGent — a 90-day plan</title>
 <style>
-  @page { size: A4; margin: 14mm 16mm 14mm 16mm; }
+  @page { size: A4; margin: 20mm 22mm 20mm 22mm; }
   html, body {
     margin: 0; padding: 0;
     color: #111;
     background: #fff;
-    font-family: "Bitstream Charter", "Charter", "Georgia", serif;
-    font-size: 9.7pt;
-    line-height: 1.28;
+    font-family: "Bitstream Charter", "Georgia", serif;
+    font-size: 10.2pt;
+    line-height: 1.36;
   }
-  h1 { font-size: 13pt; font-weight: 700; margin: 0 0 2px 0; letter-spacing: 0; }
-  h2 { font-size: 10pt; font-weight: 700; margin: 7px 0 2px 0; }
-  h3 { font-size: 9.7pt; font-weight: 700; margin: 5px 0 1px 0; }
-  p { margin: 0 0 4px 0; text-align: justify; hyphens: auto; }
+  .title-block { text-align: center; margin-bottom: 14pt; }
+  .title-block .title {
+    font-size: 15pt;
+    font-weight: normal;
+    font-variant: small-caps;
+    letter-spacing: 0.06em;
+    margin: 0 0 5pt 0;
+    font-style: italic;
+  }
+  .title-block .subtitle {
+    font-size: 10.5pt;
+    font-style: italic;
+    color: #333;
+    margin: 0 0 3pt 0;
+    padding: 0 6em;
+  }
+  .title-block .byline {
+    font-size: 9pt;
+    color: #333;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+  hr.rule {
+    border: none;
+    border-top: 0.5pt solid #333;
+    width: 55%;
+    margin: 12pt auto 14pt auto;
+  }
+  h2 {
+    display: block;
+    text-align: center;
+    font-size: 10.5pt;
+    font-weight: normal;
+    font-style: italic;
+    letter-spacing: 0.03em;
+    margin: 10pt 0 3pt 0;
+  }
+  .aster {
+    text-align: center;
+    letter-spacing: 1em;
+    margin: 8pt 0;
+    font-size: 10pt;
+    color: #444;
+  }
+  p {
+    margin: 0;
+    text-align: justify;
+    hyphens: auto;
+    text-indent: 1.4em;
+  }
+  p.first, p:first-of-type, h2 + p, hr + p {
+    text-indent: 0;
+  }
   em { font-style: italic; }
-  .subhead { font-size: 10pt; font-style: italic; color: #333; margin: 0 0 3px 0; }
-  .byline { font-size: 9.5pt; color: #333; margin: 0 0 8px 0; }
-  .section { page-break-after: always; }
-  .section:last-child { page-break-after: auto; }
-  ol, ul { margin: 2px 0 5px 0; padding-left: 18px; }
-  li { margin-bottom: 2px; }
-  table { border-collapse: collapse; width: 100%; margin: 3px 0 4px 0; font-size: 9pt; line-height: 1.25; }
-  th, td { padding: 2px 5px; text-align: left; vertical-align: top; border-bottom: 0.5pt solid #999; }
-  th { border-bottom: 0.5pt solid #333; font-weight: 700; }
+  em.runin { font-style: italic; }
+
+  table {
+    border-collapse: collapse;
+    width: 92%;
+    margin: 6pt auto 8pt auto;
+    font-size: 9.5pt;
+    line-height: 1.3;
+  }
+  th, td {
+    padding: 2px 8px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 0.4pt solid #999;
+  }
+  th {
+    font-weight: normal;
+    font-style: italic;
+    border-bottom: 0.6pt solid #333;
+    border-top: 0.6pt solid #333;
+  }
   .num { text-align: right; font-variant-numeric: tabular-nums; }
-  ol, ul { margin: 1px 0 4px 0; padding-left: 16px; }
-  li { margin-bottom: 1px; }
+  .caption {
+    font-size: 8.8pt;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+    margin-top: 2pt;
+    text-indent: 0;
+  }
 </style>
 </head>
 <body>
 
-<!-- =========================== PAGE 1: SEGMENT + POSITIONING =========================== -->
-<section class="section">
-<h1>EmerGent — the backup you carry so you never have to ask a friend to bail you out</h1>
-<p class="subhead">A 90-day plan to reach the first 10 customers of a rail-failure payments concierge, built for young Indians who don't carry cash.</p>
-<p class="byline">Ekagra Sharma. MICA, PLM:ES Final. September 2026.</p>
+<div class="title-block">
+  <div class="title">A backup for when your phone gives up</div>
+  <div class="subtitle">A ninety-day plan to reach the first ten customers of EmerGent, a WhatsApp-based emergency payments concierge for young Indians who have stopped carrying cash.</div>
+  <div class="byline">Ekagra Sharma&nbsp;&nbsp;·&nbsp;&nbsp;MICA · PLM:ES Final&nbsp;&nbsp;·&nbsp;&nbsp;September 2026</div>
+  <hr class="rule">
+</div>
 
-<h2>What EmerGent is</h2>
-<p>EmerGent is a WhatsApp-based emergency payments concierge. When a user's primary payment rail fails at a merchant (UPI is down, their SIM has died, their phone is refusing the QR), they WhatsApp a photo of the merchant's QR and the amount to EmerGent from any device with connectivity. EmerGent pays the merchant on their behalf from a company float account and settles with the user in 24 hours through an eNACH auto-debit mandate authorised at signup. The MVP that exists today is a WhatsApp Business number, a Google Sheet ledger, and my own UPI ID as the float. For the first ten customers, EmerGent is a person, not an app.</p>
+<p>EmerGent is a WhatsApp-based emergency payments concierge. When a user's primary payment rail fails at the merchant — because UPI is down, or the SIM has died mid-transaction, or the phone will not scan the QR — the user WhatsApps a photo of the merchant's QR and the amount to a saved business number called EmerGent. On the other end, I pay the merchant on their behalf from a float account and settle with them within twenty-four hours. The MVP that exists today is a WhatsApp Business number, a Google Sheet ledger, and my own UPI ID as the float pool. For the first ten customers, EmerGent is not an app. It is a person.</p>
 
-<h2>Target segment for the first 10</h2>
-<p>The mid-term identified a 30–50 million person cohort of urban Indians who have decoupled from cash. That is the eventual market. For the first 10 customers, I am scoping to a much narrower beachhead I can reach for near-zero cost through my own network: <strong>MICA students on campus in Ahmedabad, MICA classmates leaving for summer internships in Bangalore, and MICA seniors heading to Delhi for placements.</strong> Total addressable through owned channels is roughly 11,000 people — 1,000 in the MICA campus WhatsApp groups and about 10,000 across extended community groups, family circles and my own social handles.</p>
+<p>The mid-term established that the eventual market is somewhere between thirty and fifty million young urban Indians who have decoupled from cash. That is the story. For the first ten customers I am scoping much narrower, and only to a beachhead I can reach for near-zero cost through my own network: MICA students on campus in Ahmedabad, MICA classmates leaving for summer internships in Bangalore, and MICA seniors moving to Delhi for placements. Total addressable through my own channels is roughly eleven thousand people, split between about a thousand in the campus WhatsApp groups and ten thousand across extended community groups, family circles and my social handles.</p>
 
-<p>Why this beachhead. Four reasons that are more than marketing. First, the cohort runs the strongest UPI dependency I can find in one place. Student wallets are almost entirely UPI, and a batchmate of mine at a petrol pump in Ahmedabad already has a first-person story I can point to. Second, the three-city migration wave over the next 90 days is itself a distribution asset. Summer interns arriving at Silk Board in June are, statistically, going to experience SIM handoff issues in a new circle — that is when they need a backup. Third, MICA-network social density means word-of-mouth propagation is three to five times faster than any cold ad. Fourth, the founder-cohort match is real: a MICA student asking other MICA students to sign up for a MICA classmate's product converts at 20–40 per cent, per a rough back-of-envelope from personal experience. A cold Meta ad converts at 1–2 per cent for the same offer.</p>
+<p>There are four reasons this beachhead is more than convenient. Student wallets are almost entirely UPI, so the failure mode I am addressing is dense in this cohort rather than incidental. The three-city migration wave over the next ninety days is itself a distribution asset — summer interns arriving at Silk Board in June will have SIM handoff issues in a new circle, and that is when they need a backup. MICA-network social density means propagation runs three to five times faster than any cold ad. And the founder-cohort match is real: a MICA student asking other MICA students to try a MICA classmate's product converts at twenty to forty per cent from personal experience, against one to two per cent on a cold Meta ad for the same offer.</p>
 
-<h2>Positioning</h2>
-<p>Not the daily rail (GPay owns that), not the offline rail (NPCI is building UPI Lite X, per the mid-term). The category I am creating is <strong>payment safety net</strong> — insurance for the failure moment, without calling it insurance because the word is a conversion killer. Category positioning by analogy: an ambulance for when your phone fails. You don't use it every day; you would not be without it.</p>
+<p>The positioning line I want printed on the landing page reads: <em>the backup you carry so you never have to ask a friend to bail you out.</em> Not the daily rail, because GPay owns that. Not the offline rail, because NPCI is building UPI Lite X, as the mid-term already covered. The category I am creating is best called a <em>payment safety net</em> — insurance for the failure moment, without using the word insurance, because it is a conversion killer. The nearest working analogy is an ambulance: you do not call one every day, and you would not be without one.</p>
 
-<p>Positioning line (front and centre on the landing page): <em>The backup you carry so you never have to ask a friend to bail you out.</em></p>
+<p>The Delta 4 frame from the mid-term deserves an honest number rather than an aspirational one. The current workaround — borrow a stranger's hotspot, phone a friend, friend pays the merchant on your behalf — scores about a three on a ten-point switch scale. EmerGent in Phase 1, running honor-system UPI collect for settlement because eNACH mandates need four to six weeks of NPCI paperwork that a solo student cannot shortcut, scores about a seven. Faster than the friend, no relationship debt, no explaining at the counter, but the trust anchor is thinner without the mandate. That is a delta of four. In Phase 2, when eNACH lands through a partner bank, the score climbs to eight or nine and the delta widens. Both cross the four-point threshold Kunal Shah names as the minimum for actual habit change, but I would rather state the Phase 1 number honestly than borrow Phase 2's.</p>
 
-<p>Delta 4 frame from the mid-term: the current de-facto workaround (borrow a hotspot, call a friend, friend pays the merchant) scores about 3 on a 10-point switch scale. EmerGent Phase 1, with honor-system settlement rather than eNACH (because eNACH needs 4–6 weeks of NPCI paperwork a student can't shortcut), honestly scores 7 — faster than the friend, no relationship debt, no explaining, but trust anchor is thinner without the mandate. Delta 4. Phase 2 restores eNACH and the score climbs to 8–9. Both cross Kunal Shah's four-point threshold; I would rather state the Phase 1 number honestly.</p>
+<h2>The first ten, named</h2>
 
-<h2>The first 10, named (pipeline, not fantasy)</h2>
-<p>I will not present a segment I cannot picture. Ten named candidates below, drawn from my second-degree MICA network. Full profiles in the appendix; each carries a specific past-behaviour anchor (they have already lived the pain) so activation risk is bounded.</p>
-<ol style="font-size:9.5pt; line-height:1.28;">
-<li><strong>Ravi Krishnan</strong> (Ahmedabad, W3) — Chennai, PGDM-C. SIM failure at a CEPT chai stall in April 2025.</li>
-<li><strong>Aanya Malhotra</strong> (Ahmedabad, W3) — Delhi, PGDM-C. Complained in the batch group about Vastrapur Big Bazaar UPI failure.</li>
-<li><strong>Priya Shah</strong> (Ahmedabad, W4) — local, PGDM-B. Daily UPI user; canteen-sticker channel.</li>
-<li><strong>Sarthak Joshi</strong> (Ahmedabad, W4) — Pune, PGDM-C. Publicly vocal about April 2025 UPI outages on Instagram.</li>
-<li><strong>Naveen Bhatt</strong> (BLR, W5) — summer intern at Cred. Lost SIM once at Silk Board.</li>
-<li><strong>Anushka Gupta</strong> (BLR, W6) — summer intern at Razorpay ops.</li>
-<li><strong>Karthik Venkat</strong> (BLR, W7) — Diageo Whitefield intern, first-time in BLR.</li>
-<li><strong>Jayanti Mishra</strong> (Delhi, W9) — Ogilvy placement; aunt was stranded at AIIMS Metro last winter.</li>
-<li><strong>Divya Tandon</strong> (Delhi, W10) — Havas placement; public Instagram complaint on the Feb 2025 Airtel outage.</li>
-<li><strong>Rahul Sethi</strong> (Delhi, W11) — DBS Bank placement; face-to-face signup during the Delhi week.</li>
-</ol>
-<p style="font-size:9pt; color:#333;">Buffer: Mansi Patel (Ahmedabad, marketing) and Yash Kapoor (Mumbai, TCS remote). These are illustrative persona composites of the actual cohort I have access to; real signups replace them on the live version, and their consent is captured at signup.</p>
-</section>
+<p>I will not present a segment I cannot picture. The ten below are illustrative persona composites of the real cohort I have access to — consented names replace them at submission.</p>
 
-<!-- =========================== PAGE 2: JOURNEY + SERVICE BLUEPRINT =========================== -->
-<section class="section">
-<h2>Customer journey and service blueprint</h2>
+<p>In Ahmedabad through Weeks 1 to 4, four candidates. <em>Ravi Krishnan</em>, PGDM-C, from Chennai, whose SIM died at a chai stall near CEPT last April; his roommate is a classmate of mine, so direct WhatsApp is the channel. <em>Aanya Malhotra</em>, PGDM-C, from Delhi, who complained in the batch group about a UPI failure at Vastrapur Big Bazaar last month, and comes in through the Instagram post. <em>Priya Shah</em>, PGDM-B, Ahmedabad local, a daily UPI user who signs up partly as classmate support after seeing the canteen sticker. <em>Sarthak Joshi</em>, PGDM-C, from Pune, the first person I know to Instagram-story the April 2025 UPI outages, coming in via a direct message.</p>
 
-<p>Three stages of the journey: pre-emptive, event, post-event.</p>
+<p>In Bangalore through Weeks 5 to 8, three from the intern cohort. <em>Naveen Bhatt</em> at Cred, who has already lost his SIM once at Silk Board. <em>Anushka Gupta</em> in Razorpay's ops team, who understands the problem shape professionally. <em>Karthik Venkat</em> at Diageo Whitefield, first-time in the city and fresh to the local network. All three come in through alumni referrals from the BLR-going classmates I have asked to be micro-ambassadors.</p>
 
-<h3>Pre-emptive (before it happens)</h3>
-<p>Trigger: a MICA classmate's Instagram story, "Been stuck at a petrol pump with a dead SIM? EmerGent pays for you. 90-second signup." User taps the WhatsApp link. The bot greets them: <em>"Hi, I'm EmerGent. Here's what I do: when your phone can't pay, I pay for you and you settle later. Ready to set me up?"</em> Phase 1 onboarding is deliberately minimal (three fields): phone number, name, and one trusted friend's UPI ID. Aadhaar via DigiLocker and eNACH mandate both require SP registration and NPCI onboarding that a solo student cannot complete in two weeks; they enter as an optional Phase 2 upgrade (post Week 4) that unlocks the higher ₹2,000 rescue cap. A mandatory 30-second dry run follows onboarding: the user WhatsApps a fake QR to prove the flow works. That single act converts an abstract signup into a used product. Users who complete the dry run are five to ten times more likely to trigger a real rescue in the next 30 days, per the Fogg behaviour model applied to fintech onboarding.</p>
+<p>In Delhi through Weeks 9 to 12, the last three. <em>Jayanti Mishra</em>, placed at Ogilvy Delhi, whose aunt was once stranded at AIIMS Metro station with no cash on her. <em>Divya Tandon</em>, placed at Havas Media, who publicly complained about the February 2025 Airtel outage on her Instagram — her existing complaint is the buying signal. <em>Rahul Sethi</em>, placed at DBS Bank Delhi, who will understand the fintech pitch instantly and comes in face-to-face if I make the Delhi trip or over a WhatsApp video call if I do not. Held in reserve: Mansi Patel in Ahmedabad and Yash Kapoor at TCS Mumbai.</p>
 
-<h3>Event (during a lockout)</h3>
-<p>The user is at a merchant. Payment fails. They either have data (rail failure only) or they borrow a stranger's hotspot (rail plus SIM failure). This is the scope EmerGent honestly serves: the rescue needs any working connectivity, from any device. Phone-dead-battery is out of scope for the MVP.</p>
+<div class="aster">* * *</div>
 
-<p>They WhatsApp EmerGent a photo of the merchant's QR and the amount. The bot performs four checks in the background: QR decode, user identity match by phone number, velocity limits (max 3 rescues in 24 hours in Phase 1), and amount cap (₹2,000 per transaction in Phase 1). If in-limits, the bot triggers a UPI transfer from the EmerGent float account to the merchant. The merchant sees a payment arrive from "EmerGent" with the user's UTR. Confirmation SMS goes to the user's registered number; the user shows the merchant the confirmation. Total target time is under 60 seconds in Phase 1 (concierge, agent-in-loop for the first 30 rescues) and under 30 seconds in Phase 2 (rule-based auto-approve up to ₹500, human above).</p>
+<h2>The customer journey and the service blueprint</h2>
 
-<h3>Post-event (settling and closing the loop)</h3>
-<p>Phase 1: at T+24 hours the bot sends a UPI collect request for the rescue amount plus the ₹49 fee. Honor-system settlement — if the user doesn't pay in 48 hours, they lose future access and are moved off the beta list. Small numbers make this workable for the first 30 rescues. Phase 2 (from Week 5 onward, once volumes justify NPCI onboarding costs): pre-authorised eNACH auto-debit at T+72 if the collect request is ignored. Monthly digest sent both ways: <em>"You were rescued 3 times this month. Total ₹588 with fees. Your trusted friend is Aanya."</em></p>
+<p>The journey has three stages, and none of them is elegant.</p>
 
-<h3>Rescue-failure playbook</h3>
-<p>A rescue can fail on our end (float exhausted, QR decode fails, bank downtime on the receiving side). If it does, the user is stranded and we owe them. Policy: EmerGent absorbs the transaction cost up to ₹500 within the failure hour by paying the merchant directly from a founder-side backup UPI ID, sends a formal apology within four hours, and comps the user's next rescue for free. This is capped at three failure-incidents in the 90 days; beyond that, we've stopped being reliable and should reset the pilot.</p>
+<p><em class="runin">Pre-emptive.</em> A classmate's Instagram story: <em>been stuck at a petrol pump with a dead SIM? EmerGent pays for you, ninety-second signup.</em> The user taps the WhatsApp link. The bot greets them: <em>hi, I'm EmerGent. Here is what I do — when your phone can't pay, I pay for you and you settle later. Ready to set me up?</em> Phase 1 onboarding is deliberately minimal because I cannot stand up more in Week 2 as a solo student: phone number, name, and one trusted friend's UPI ID as a soft fallback. Aadhaar via DigiLocker and eNACH mandate each need a service-provider registration and NPCI onboarding on the operator side, both of which are four to six week processes. They enter as Phase 2 upgrades from Week 5, gated behind a higher rescue cap. A mandatory thirty-second dry run follows onboarding — the user WhatsApps a fake QR to prove the flow works. That single act converts an abstract signup into a used product, which is the Fogg behaviour model applied to fintech onboarding, and users who complete the dry run are five to ten times more likely to trigger a real rescue within thirty days.</p>
 
-<h2>Service blueprint (front-stage, back-stage, support)</h2>
+<p><em class="runin">Event.</em> The user is at a merchant and the payment fails. They either have their own data (rail failure only) or they borrow a stranger's hotspot (rail plus SIM failure). This is the scope EmerGent honestly serves: some working WhatsApp channel is required from any device. The phone-dead-battery case is out of scope for the MVP and belongs to the Phase 3 physical card. The user sends a photo of the QR and the amount. Four checks run in the background — QR decode via OpenCV, identity match by phone number, velocity limit (three rescues per twenty-four hours), and amount cap of ₹2,000 in Phase 1. If in-limits, I trigger a UPI transfer from the float account to the merchant. The merchant sees a payment arrive from EmerGent with the user's UTR reference. A confirmation SMS goes to the user's number; they show it to the merchant. Target latency: under sixty seconds in Phase 1, under thirty in Phase 2 once auto-approve rules are in.</p>
+
+<p><em class="runin">Settlement.</em> At T-plus-twenty-four hours the bot sends a UPI collect request for the rescue amount plus the ₹49 fee. Phase 1 is honor system — if the user does not pay in forty-eight hours they lose future access and move off the beta list. That is workable at the scale of the first thirty rescues. Phase 2 introduces eNACH auto-debit at T-plus-seventy-two once a partner bank is in the picture.</p>
+
+<p><em class="runin">Rescue-failure playbook.</em> A rescue can fail on my end — float exhausted, QR decode fails, receiving-side bank downtime. If it does, the user is stranded and I owe them. Policy: I absorb the transaction cost up to ₹500 by paying the merchant directly from a founder-side backup UPI ID within the failure hour, send a formal apology within four hours, and comp the user's next rescue. Capped at three failure-incidents in the ninety days; beyond that I have stopped being reliable and should reset the pilot.</p>
+
+<p>The obvious question a reader will ask is how this is meaningfully different from a friend calling a friend. It is different on five axes. Always-on: a friend at two in the morning does not pick up. No relationship debt: the ten times a year you would have asked your friend, you now pay a small fee instead. Anonymous to the merchant: you are not explaining who is paying and why. Repeatable and ledgered: no <em>did you Venmo me back?</em> awkwardness. Speed: thirty seconds instead of a three-minute phone call. Together those clear Delta 4 comfortably. What is <em>not</em> a delta and I own honestly: connectivity itself. EmerGent still needs the user to be reachable through some working WhatsApp channel. The genuinely-no-connectivity case is Phase 3, when a physical prepaid card enters the wallet.</p>
+
+<h2>The three-city arc</h2>
+
+<p>The plan is timed to when and where the cohort is most exposed. Ahmedabad in Month 1, when trust and social proof are densest for me on campus. Bangalore in Month 2, when interns are arriving in a new city with fresh mobile plans and hitting SIM handoff issues in Whitefield and Koramangala. Delhi in Month 3, when placement-bound seniors are moving and settling in. Each city's disruption window is itself the activation moment; the plan uses the migration wave rather than resisting it.</p>
+
+<p>Weeks 1 to 4 in Ahmedabad are founder-driven and high-touch. Personal WhatsApp to one hundred known contacts across three MICA batches. One long-form Instagram post from my personal handle and three friends' handles, paid in kind by giving them lifetime free EmerGent. A sticker drop at three hostels and the canteen, three hundred stickers with a QR that opens the WhatsApp thread directly. End-of-Week-4 target: fifty signups, twenty completed dry runs, three activated users, and five real rescues in the ledger.</p>
+
+<p>Weeks 5 and 6 are the Bangalore intern wave. Five BLR-going classmates are the micro-ambassadors — free lifetime EmerGent in exchange for five referrals each. Instagram content shifts BLR-specific: <em>your SIM is going to give up at Silk Board, sign up before you land.</em> The two landing-page variants (subscription vs pay-per-rescue) run A/B in this window to lock the pricing model by Week 8. Weeks 7 and 8 are consolidation and outreach ramp: cold LinkedIn expanded to sixty messages a week across me plus three alumni, first in-person bank meeting attempted, second Ahmedabad wave activating through the referral loops of the first cohort. Target by end of Week 8: eight activated users and one bank meeting on the calendar.</p>
+
+<p>Weeks 9 and 10 are Delhi, virtual first. Delhi creative goes live — <em>your Metro card is fine, your SIM might not be.</em> Instagram Lives with Divya and Rahul as guest voices, one per week. Reddit posts on r/delhi and r/personalfinanceindia, framed as a MICA student's project rather than a launch. The Delhi trip itself is contingent — ₹2,000 for the flight only if the previous eight weeks have hit their targets. Otherwise the wave runs entirely on WhatsApp video and LinkedIn DMs. Weeks 11 and 12 close out and prepare Phase 3: founder outreach to close the tenth signup, bank meetings maturing into a substantive conversation with written follow-up, a public KPI dashboard shared with the batch, a Phase 3 card-partnership pitch deck written, a one-paragraph postmortem for the batch group. Day-ninety targets: ten activated users, thirty weekly rescues, NPS at forty, and one bank in written conversation.</p>
+
+<p>Acquisition channels, ranked by expected CAC. Personal WhatsApp to known contacts costs founder time only and converts at thirty to forty per cent, and it carries me through the first five or seven customers before it stops scaling. MICA alumni referrals are also effectively free, converting at twenty to twenty-five per cent contingent on the ambassadors actually referring — the structured reciprocity is what keeps them honest. Campus Instagram plus stickers costs the ₹4,500 for the stickers and converts at five to ten per cent. Reddit organic is free (time only) at one to three per cent, but the <em>MICA student project</em> framing beats a launch tone in that audience. Meta ads sit at ₹80–150 CAC and two to five per cent conversion; I hold ₹3,000 of the ten-thousand-rupee budget for a controlled experiment only if organic underperforms by Week 6.</p>
+
+<p>The funnel with real numbers. Addressable reach across three cities is eleven thousand. At a thirty per cent awareness rate, three thousand three hundred impressions. At a five per cent visit rate to the landing page or WhatsApp thread, one hundred and sixty-five. At forty per cent signup start, sixty-six. At sixty per cent onboarding complete in the Phase 1 light flow, forty. At twenty-five per cent activation within thirty days, ten. Both the signup rate and the onboarding-complete rate are optimistic against warm-cohort WhatsApp benchmarks of fifteen to twenty-five per cent; if either underperforms I switch the funnel to WhatsApp-first with no landing page at all.</p>
+
+<h2>Pricing, CAC, and unit economics</h2>
+
+<p>Two pricing models exist as candidates. The default is Model B: zero rupees a month plus ₹49 per rescue, no floor. The reasoning is that with n equals ten the A/B test is statistically noise, and Model B is safer for the founder's cash position. Zero barrier to signup, revenue only fires when the product actually saves someone, brand-risk minimal if we underperform in the early weeks. Model A — ₹49 a month with the first three rescues free — enters as a Phase 2 premium upgrade from Week 9 for repeat users with two or more rescues logged.</p>
+
+<p>CAC by phase and blended. Weeks 1 to 4 spend ₹1,500 for three activations, ₹500 per activation. Weeks 5 to 8 spend ₹3,500 for four activations, ₹875 per. Weeks 9 to 12 spend ₹5,000 for three activations, ₹1,667 per. Blended across the ten: ₹10,000 for ten activations, so a blended CAC of ₹1,000. Realistic if unpolished for a warm-cohort concierge, and the number gets worse in Phase 4 when the cohort widens beyond MICA, which is why the referral loop and the moat both have to be earning by then.</p>
+
 <table>
-<thead><tr><th>Stage</th><th>Front-stage (user)</th><th>Back-stage (EmerGent)</th><th>Support process</th></tr></thead>
+<thead>
+<tr><th>Line item</th><th class="num">Per rescue</th><th>Reasoning</th></tr>
+</thead>
 <tbody>
-<tr><td>Onboarding</td><td>WhatsApp bot chat, DigiLocker OAuth, eNACH mandate setup</td><td>KYC verification, mandate registration with sponsor bank, dry-run script trigger</td><td>Aadhaar cache purged after 24h; no PII stored in the Sheet</td></tr>
-<tr><td>Rescue request</td><td>Photo + amount to WhatsApp</td><td>QR decode via OpenCV, identity match, velocity/amount rule check, UPI transfer from float, confirmation SMS</td><td>Agent-in-loop for first 30 rescues (me), then auto-approve within limits</td></tr>
-<tr><td>Settlement</td><td>UPI collect notification or auto-debit SMS</td><td>eNACH debit request, Sheet reconciliation, ledger email at end of month</td><td>Manual reconciliation weekly by me, automated from Phase 3</td></tr>
+<tr><td>Rescue fee revenue</td><td class="num">₹49.00</td><td>Model B fixed fee</td></tr>
+<tr><td>Interchange or merchant fee</td><td class="num">₹0.00</td><td>Zero MDR on small-merchant UPI</td></tr>
+<tr><td>WhatsApp Business session cost</td><td class="num">−₹0.30</td><td>Meta charges roughly this per session, one per rescue</td></tr>
+<tr><td>Float cost of capital</td><td class="num">−₹0.10</td><td>Holding ₹200 for twenty-four hours at 12% p.a.</td></tr>
+<tr><td>Collect or gateway fee</td><td class="num">−₹2.00</td><td>Cashfree tier in Phase 1; eNACH at ₹5 in Phase 2</td></tr>
+<tr><td>Rescue-failure reserve</td><td class="num">−₹15.00</td><td>3% failure rate against the ₹500 cap in the playbook</td></tr>
+<tr><th>Contribution per rescue</th><th class="num">₹31.60</th><th>Roughly sixty-four per cent</th></tr>
+</tbody>
+</table>
+<p class="caption">Unit economics per rescue under Model B, Phase 1. Founder time uncosted.</p>
+
+<p>At one rescue per user per month, contribution per user monthly is ₹31.60. Payback on ₹1,000 CAC works out to about thirty-two months. That is a long payback, and it is honest. The plan only becomes a real business if two things happen. The referral loop has to drop blended CAC below ₹300 by Day 90 (target: 2.5 signups per activated user, tracked as a Week 8 KPI). Rescues per user have to climb to two per month by month six, taking revenue to ₹98 and contribution to ₹63, which compresses payback to about sixteen months. The third lever is Phase 3: a card partnership adds a ₹19 monthly carrying fee plus roughly 0.5% interchange on offline card use, adding ₹25–40 per user per month and dropping payback under ten months. That is the seed-stage story.</p>
+
+<h2>Risks, and how I plan to handle them</h2>
+
+<p><em class="runin">Nobody signs up.</em> The concierge might be too weird for the cohort to trust. Contingency: Weeks 1 to 4 are positioned as a MICA-only closed beta, with a public list of the first twenty signed-up classmates on the landing page by end of Week 4 as social proof. If signups stay below twenty by Day 30, I sunset the WhatsApp funnel and pivot to a peer-to-peer pool model — ₹49 into a shared group, any member gets bailed out from the pool when they need help. Same product, without external rails, and it lets me learn whether the trust barrier is with EmerGent or with the concept itself.</p>
+
+<p><em class="runin">Signups don't convert into rescues.</em> Users sign up but never trigger the service, so we can't tell if it works. Contingency: the dry run at onboarding is mandatory, and on Day 7 the bot proactively nudges with a ₹10 rescue coupon for a real transaction. If activation is still below thirty per cent at Day 30, I add a reverse-onboarding incentive of ₹100 credit for the next rescue if it happens within fourteen days.</p>
+
+<p><em class="runin">Regulatory red flag on payment intermediation.</em> A PA or PPI license is a grey area at scale. Phase 1 and 2 posture is a consenting-user private pilot with total monthly volumes capped at ₹1 lakh, full user disclosure that this is a founder-run beta, and honor-system settlement rather than eNACH auto-debit until a partner bank is in the picture. In parallel I begin cold LinkedIn outreach from Week 1 to five banks with documented fintech-BAAS plays. SBM Bank India is primary — a ₹15,000-crore book with a dedicated fintech-partnerships team, powers Slice, Fi, Jupiter, EarlySalary and Uni, and is small enough for a solo founder to reach with a cold email. YES Bank iPay and BaaS is secondary; post-restructuring they are actively courting fintech co-brands, and they power Cred and Turtlemint. Airtel Payments Bank is specific-fit for the Phase 3 offline card because their NCMC RuPay prepaid card is already deployed on Delhi Metro and Namma Metro, which is exactly the offline story we care about. Federal Bank BaaS, which powers Fi and Freo, is a solid tertiary. RBL Bank Fintech Partnerships is larger and slower but has proven BAAS chops through OneCard. The selection band is deliberate: each has a documented BAAS play with fintech partners in the ₹15,000–110,000 crore book range, which is the band a pre-Series-A founder can plausibly cold-outreach without prior warm intros. Realistic ninety-day KPI, revised down from a term sheet: one substantive conversation with a fintech-partnerships manager and a written follow-up in hand.</p>
+
+<p><em class="runin">Float exhaustion or user default.</em> The pool starts at ₹5,000 from my own account and scales with activation. Phase 1 is honor-system settlement — defaulters lose future access. Velocity is capped at three rescues per user per thirty days, amount capped at ₹2,000 per rescue. Phase 2 restores eNACH auto-debit at T-plus-seventy-two hours once a partner bank is engaged.</p>
+
+<p><em class="runin">NPCI ships UPI Lite X consumer rollout ahead of schedule.</em> The mid-term named this as the biggest structural risk. Even at a full rollout, u/yogthinks's public critique still holds — offline caps of ₹500 per transaction and ₹4,000 daily leave the ₹500 to ₹2,000 band uncovered, and that is exactly where EmerGent focuses. The longer-term pivot: Phase 4 becomes the layer above UPI Lite X — an app that surfaces the user's Lite X balance, auto-tops it up when the daily rail fails, and offers the concierge for anything above the ₹500 cap. That positions us as complementary to the regulator's rail rather than competitive.</p>
+
+<h2>KPIs and measurable outcomes</h2>
+
+<p>Five KPIs, tracked weekly on a public dashboard shared with the batch. Definitions and cadence in one place, and no other metrics presented as KPIs even where they are worth watching.</p>
+
+<table>
+<thead>
+<tr><th>KPI</th><th class="num">Day 30</th><th class="num">Day 60</th><th class="num">Day 90</th><th>Definition</th></tr>
+</thead>
+<tbody>
+<tr><td>Activated users</td><td class="num">3</td><td class="num">6</td><td class="num">10</td><td>Onboarded and at least one real or test rescue in last 30 days</td></tr>
+<tr><td>Rescue completion rate</td><td class="num">70%</td><td class="num">80%</td><td class="num">90%</td><td>Rescues fulfilled within target latency</td></tr>
+<tr><td>Median rescue latency</td><td class="num">120s</td><td class="num">75s</td><td class="num">45s</td><td>Message received to merchant SMS delivered</td></tr>
+<tr><td>Bank conversation depth</td><td>—</td><td>1 first-touch</td><td>1 substantive + written follow-up</td><td>Real substance with a PM, not a form response</td></tr>
+<tr><td>Blended CAC / NPS</td><td class="num">₹500 / —</td><td class="num">₹700 / 30</td><td class="num">₹1,000 / 40</td><td>Total spend per activation; one-question NPS after each rescue</td></tr>
 </tbody>
 </table>
 
-<h2>Automation delta over the manual friend-workaround</h2>
-<p>The critique the personas will raise: how is this actually different from calling a friend? The delta is measurable on five axes. Always-on (a friend at 2am does not pick up; EmerGent does). No relationship debt (the ten times a year you would have asked your friend, you now pay a small fee instead). Anonymous to the merchant (you are not explaining who is paying and why). Repeatable and ledgered (no "did you Venmo me back" awkwardness). Speed (30 seconds instead of a 3-minute phone call). Together those clear Delta 4.</p>
+<p>The Sean Ellis PMF signal — the <em>how would you feel if you could no longer use this product</em> test — becomes a stretch check at Day 90. With ten users, four saying <em>very disappointed</em> is a signal rather than proof, but it is the first number the next investor conversation asks about, so I track it. Beyond the KPIs, I publish four cohort-level signals from Day 1. Time-of-day distribution of rescues (the failure graph the mid-term identified as the moat). Merchant category — petrol, food, kirana, transport. City comparison across Ahmedabad, BLR and Delhi. And rescue-to-referral rate, the percentage of rescued users who then refer at least one friend within seven days. That last is the leading indicator for whether the referral loop economics on the CAC page hold.</p>
 
-<p>What is <em>not</em> a delta and I own honestly: connectivity itself. EmerGent still needs the user to be reachable through some working WhatsApp channel. The genuinely-no-connectivity case is Phase 3, when a physical prepaid card enters the wallet.</p>
-</section>
+<p>Success at Day 90 looks like ten activated users, thirty rescues a week, median latency under sixty seconds, NPS above forty, and one bank in written conversation. That is a green light for Phase 3 card work and a pre-seed round of ₹25 lakh. Failure looks like fewer than six activated by Day 60, activation rate below fifteen per cent, no bank in conversation, and negative NPS. In that case I sunset EmerGent, publish the postmortem to the batch group, and rewrite the plan around the peer-to-peer pool pivot.</p>
 
-<!-- =========================== PAGE 3: GTM + FIRST ACQUISITION CHANNELS + FUNNEL =========================== -->
-<section class="section">
-<h2>Go-to-market: a three-city arc timed to the cohort's actual life</h2>
+<h2>The 90-day roadmap</h2>
 
-<p>The plan is designed around when and where the cohort is most vulnerable to the problem. Ahmedabad in the first month, when I have the highest concentration of trust and known signups. Bangalore in the second month, when summer interns are arriving in a new city and hitting SIM handoff issues. Delhi in the third month, when placement-bound seniors are moving and settling in with fresh mobile plans. Each city is a new-user activation opportunity because the cohort's payment life is disrupted in exactly that window.</p>
+<p><em class="runin">Weeks 1 and 2.</em> Register the WhatsApp Business number, submit the green-tick application (Meta approval is realistically four to six weeks, so it does not block launch). Landing page live at <em>getemergent.in</em> on Vercel's free tier, the .in TLD costing ₹700 for a year. Framer template, one-page copy. WhatsApp onboarding webhook via Bolt.new plus a Twilio-style bridge, Phase 1 light: phone, name, trusted friend UPI. Google Sheet ledger with columns for user, timestamp, merchant, amount, latency and agent notes. Personal UPI ID as the float pool, ₹5,000 seeded from my account, and a second UPI ID kept warm as the backup for the rescue-failure playbook. Dry-run script tested with three friends. One MICA alumnus signed up as the escalation contact for after-hours critical rescues, paid a ₹500 retainer for the ninety days. Cold LinkedIn outreach to SBM, YES, Airtel Payments, Federal, and RBL from Week 1 at thirty messages per week.</p>
 
-<h3>Weeks 1–4: Ahmedabad, campus concierge</h3>
-<p>Founder-driven. Personal WhatsApp to 100 known contacts across three MICA batches. One long-form Instagram post from my personal handle and three friends' handles (paid reciprocity: they get free lifetime EmerGent). Sticker drop at three hostels and the canteen, 300 stickers total. Target: 50 signups, 20 dry-runs completed, 10 activated users, 3–5 real rescues logged.</p>
+<p><em class="runin">Weeks 3 and 4.</em> Ahmedabad launch. Personal WhatsApp to one hundred known contacts across three MICA batches. Instagram post from my handle and three friends'. Sticker drop at three hostels and the canteen, three hundred stickers. WhatsApp broadcast to the MICA batch group with the admin's permission. Target: fifty signups, twenty completed dry runs, three activated users, and five real rescues logged.</p>
 
-<h3>Weeks 5–8: Bangalore, intern wave</h3>
-<p>Alumni-led. Five BLR-going interns identified as micro-ambassadors (they get free lifetime EmerGent, they refer 5 friends each). Instagram content shifts BLR-specific: <em>"Your SIM is going to give up at Silk Board. Sign up before you land."</em> A/B test two landing pages (subscription vs pay-per-rescue) to lock the pricing model by day 60. Target: 40 additional signups, cumulative 25 activated.</p>
+<p><em class="runin">Weeks 5 and 6.</em> Bangalore intern wave. Five BLR-going classmates as micro-ambassadors with lifetime free EmerGent in exchange for five referrals each. BLR-specific Instagram creative live. Two landing-page variants A/B on pricing. Reddit r/bangalore organic post framed as a student project. Meta ad experiment begins with a ₹1,500 budget targeted at Bangalore ages twenty-two to thirty-two. Target cumulative: six activated.</p>
 
-<h3>Weeks 9–12: Delhi + broader beta</h3>
-<p>Delhi placement-bound seniors. Metro corridor sticker drops in Aerocity, Cyber City and Nehru Place at ₹500 for 30 stickers. Reddit r/india and r/delhi organic posts framed as "MICA student's project" (authenticity beats ad-copy in these subs). One founder trip to Delhi (₹2,000 flight from Ahmedabad) for face-to-face signups. Target: cumulative 10 activated by day 90, 15 as stretch.</p>
+<p><em class="runin">Weeks 7 and 8.</em> Consolidate BLR and ramp bank outreach. Cold LinkedIn expanded to sixty messages a week across me plus three alumni. Pricing model locks based on the A/B result. Second Ahmedabad wave activates through referral loops from the first cohort. First in-person bank meeting attempted — RBL prepaid team is the most likely first target because they run OneCard and have a public partnership stance. Target cumulative: eight activated, one bank meeting on the calendar.</p>
 
-<h2>First acquisition channels, ranked by expected CAC</h2>
-<table>
-<thead><tr><th>Channel</th><th>Expected CAC</th><th>Expected CVR</th><th>Notes</th></tr></thead>
-<tbody>
-<tr><td>Personal WhatsApp to known contacts</td><td>₹0</td><td>30–40%</td><td>Founder time only. Cannot scale past ~200 people, but sufficient for the first 5–7 customers.</td></tr>
-<tr><td>MICA alumni referral</td><td>₹0</td><td>20–25%</td><td>Requires the 5 ambassadors to actually refer. Structured reciprocity: their referral unlocks their own free tier.</td></tr>
-<tr><td>Campus Instagram + sticker</td><td>₹0–500 (sticker cost only)</td><td>5–10%</td><td>Sticker QR that opens the WhatsApp thread directly. Physical distribution is the trigger.</td></tr>
-<tr><td>Reddit organic</td><td>₹0 (time only)</td><td>1–3%</td><td>r/india, r/bangalore, r/delhi, r/personalfinanceindia. Framed as a student project, not a launch.</td></tr>
-<tr><td>Meta ads (contingency)</td><td>₹80–150</td><td>2–5%</td><td>₹1,500–3,000 experiment only if organic underperforms by day 45.</td></tr>
-</tbody>
-</table>
+<p><em class="runin">Weeks 9 and 10.</em> Delhi wave, virtual first. Delhi creative live. Instagram Lives with Divya and Rahul as guest voices, one per week. Reddit posts on r/delhi and r/personalfinanceindia. Delhi trip contingent on the previous eight weeks having hit their targets — otherwise the wave runs on WhatsApp video and LinkedIn DMs. Target cumulative: nine activated.</p>
 
-<h2>Acquisition funnel with real numbers</h2>
-<p>Top-of-funnel reach across the three cities through owned channels is roughly 11,000 addressable contacts over 90 days. The funnel below is aggressive because it operates inside a warm cohort. For a cold audience it would be an order of magnitude worse; I am not planning for cold.</p>
+<p><em class="runin">Weeks 11 and 12.</em> Close out and prepare Phase 3. Founder personal outreach to close the tenth signup. Bank meetings from the Week 7-8 outreach mature into a substantive conversation with written follow-up. Ninety-day retrospective goes live as a public KPI dashboard. Phase 3 card-partnership pitch deck written. A one-paragraph postmortem posted to the batch group on what worked and what did not. Day-ninety targets: ten activated users, thirty weekly rescues, NPS forty, one bank in written conversation.</p>
 
-<table>
-<thead><tr><th>Stage</th><th>Conversion</th><th>Volume</th></tr></thead>
-<tbody>
-<tr><td>Addressable reach (three-city network)</td><td>—</td><td class="num">11,000</td></tr>
-<tr><td>Post seen / awareness</td><td>30%</td><td class="num">3,300</td></tr>
-<tr><td>Landing page visit or WhatsApp thread opened</td><td>5%</td><td class="num">165</td></tr>
-<tr><td>Signup started (name + phone submitted)</td><td>40%</td><td class="num">66</td></tr>
-<tr><td>Onboarding complete (Aadhaar + eNACH + dry-run)</td><td>60%</td><td class="num">40</td></tr>
-<tr><td>Activated (rescue or test-rescue completed within 30 days)</td><td>25%</td><td class="num">10</td></tr>
-</tbody>
-</table>
+<h2>The moat, if the ninety days work</h2>
 
-<p>The two weakest links, and how I'll test them. Landing-to-signup at 40% is optimistic; the industry benchmark for warm-cohort WhatsApp funnels is 15–25%. If the real number lands at 15%, the funnel yields four activated instead of ten. Contingency: shift to WhatsApp-first with no landing page at all, which typically doubles the entry conversion. Signup-to-onboarding at 60% is also optimistic; Aadhaar and eNACH friction usually kills 70–80% of B2C flows. If this collapses, I split onboarding into a Phase 1 light version (phone + name + trusted friend only, unlocks concierge rescues up to ₹500) and a Phase 2 full version (Aadhaar + eNACH, unlocks the ₹2,000 cap and card issuance later).</p>
-</section>
+<p>Three moats compound over the ninety days and the twelve months after, and none of them is what GPay or PhonePe would build because it would dilute their brands.</p>
 
-<!-- =========================== PAGE 4: PRICING + CAC + UNIT ECONOMICS =========================== -->
-<section class="section">
-<h2>Pricing: default to pay-per-rescue for Phase 1</h2>
-<p>With n=10 the A/B test is statistically noise, so I am picking a default that is safer for the founder cash position. <strong>Model B (pay-per-rescue) is the Phase 1 default: ₹0/month + ₹49 per rescue.</strong> No barrier to signup, revenue only fires when the product actually saved someone, brand-risk-minimal if we underperform. Model A (₹49/month subscription with 3 free rescues) enters as a premium upgrade tier from Week 9 once we have data on rescue frequency per cohort.</p>
+<p>The first is behavioural data on failure moments. GPay and PhonePe instrument the happy path — signup, transaction, receipt. EmerGent's entire product is the failure moment, so every rescue is proprietary data on when, where, at what merchant category, and at what amount UPI payments actually fail in the wild. Over twelve months that becomes the only failure graph of Indian retail payments anyone owns, and it is sellable to banks doing fraud modelling, insurers pricing coverage, and NPCI itself doing capacity planning. Unfair to reproduce without EmerGent's specific usage pattern.</p>
 
-<table>
-<thead><tr><th>Model</th><th>Structure</th><th>When</th></tr></thead>
-<tbody>
-<tr><td><strong>B — pay-per-rescue (default)</strong></td><td>₹0/month + ₹49 per successful rescue</td><td>Phase 1, Weeks 1–8. No signup friction. Revenue triggered by product working.</td></tr>
-<tr><td>A — subscription (upgrade)</td><td>₹49/month + first 3 rescues free + ₹49/rescue after</td><td>Phase 2, from Week 9. For repeat users with 2+ rescues logged.</td></tr>
-</tbody>
-</table>
+<p>The second is a trust anchor built through voluntary friction. Aadhaar plus eNACH plus a trusted friend's UPI is deliberately more onboarding friction than any daily-use app would tolerate. GPay could technically add all of it, but their daily-use funnel would collapse. EmerGent's onboarding is the friction, which means signups self-select for the high-trust users banks want to underwrite. Anti-selection lock: the moment EmerGent's users are labelled the high-trust cohort, banks want to underwrite them, and that becomes a long-term revenue line from partnership fees.</p>
 
-<h2>CAC by channel and blended</h2>
-<table>
-<thead><tr><th>Phase</th><th>Channel mix</th><th>Spend</th><th>Activations</th><th>CAC per activation</th></tr></thead>
-<tbody>
-<tr><td>Weeks 1–4 (Ahmedabad)</td><td>Personal + campus stickers</td><td class="num">₹1,500</td><td class="num">3</td><td class="num">₹500</td></tr>
-<tr><td>Weeks 5–8 (BLR)</td><td>Alumni referral + Instagram + partial Meta</td><td class="num">₹3,500</td><td class="num">4</td><td class="num">₹875</td></tr>
-<tr><td>Weeks 9–12 (Delhi + broader)</td><td>Metro stickers + Meta + Reddit</td><td class="num">₹5,000</td><td class="num">3</td><td class="num">₹1,667</td></tr>
-<tr><td><strong>90-day blended</strong></td><td>—</td><td class="num"><strong>₹10,000</strong></td><td class="num"><strong>10</strong></td><td class="num"><strong>₹1,000</strong></td></tr>
-</tbody>
-</table>
+<p>The third is off-app trigger surface. Sticker on the phone case. Physical NCMC card in the wallet. A contact called <em>EmerGent SOS</em> saved with a star. SMS shortcode as a Phase 2 addition. That is distribution real estate GPay refuses to build because it dilutes the daily brand, and it is exactly where the user reaches when the daily app is failing. EmerGent lives in the parts of the phone's life that GPay does not touch.</p>
 
-<p>₹1,000 CAC per activation for a warm-cohort concierge is realistic if unpolished. The number gets worse in Phase 4 when the cohort widens beyond MICA, which is why the referral loop and the moat both have to be earning by then.</p>
+<p>Phase 4, after Day 90, is where the app enters and where the permission set does most of the work. SMS Read to auto-detect UPI failure messages from banks. Notification Listener to detect GPay and PhonePe failure toasts in context. Foreground Service to survive Android power management. Background Location for fraud scoring. Biometric per rescue. Bluetooth for peer-to-peer settlement in Phase 4 or 5. Users of a daily payment app will not grant SMS Read to GPay or PhonePe. Users of an emergency-only app will. That permission gap is what stops the incumbents from copying us — and it is only earnable after ninety days of concierge trust-building.</p>
 
-<h2>Unit economics per rescue under Model B, and per active user monthly</h2>
-<p>Assumptions: pay-per-rescue Model B, typical rescue amount ₹200, typical user takes 1 rescue per month in Phase 1 (2 by month 6 as habituation forms).</p>
+<div class="aster">* * *</div>
 
-<table>
-<thead><tr><th>Line</th><th>Per rescue</th><th>Reasoning</th></tr></thead>
-<tbody>
-<tr><td>Rescue fee revenue</td><td class="num">₹49</td><td>Model B fixed fee</td></tr>
-<tr><td>Interchange / merchant fee (P2M UPI &lt; ₹2K)</td><td class="num">₹0</td><td>NPCI zero-MDR on small merchant UPI</td></tr>
-<tr><td><strong>Total revenue per rescue</strong></td><td class="num"><strong>₹49</strong></td><td></td></tr>
-<tr><td>WhatsApp Business session cost</td><td class="num">₹0.30</td><td>Meta ~₹0.30/session, one session per rescue</td></tr>
-<tr><td>Float cost of capital (₹200 × 24h × 12% p.a.)</td><td class="num">₹0.10</td><td>Cost of holding user's rescue amount for 24h</td></tr>
-<tr><td>Payment gateway / collect fee</td><td class="num">₹2</td><td>Phase 1 honor-system UPI collect (Cashfree/Razorpay tier); Phase 2 eNACH at ₹5</td></tr>
-<tr><td>Rescue-failure reserve (3% failure rate × ₹500 cap)</td><td class="num">₹15</td><td>Provisioned for the failure-playbook policy</td></tr>
-<tr><td>Support / founder time</td><td class="num">sunk</td><td>Not counted in Phase 1; ~₹10/rescue at scale</td></tr>
-<tr><td><strong>Total variable cost per rescue</strong></td><td class="num"><strong>₹17.40</strong></td><td></td></tr>
-<tr><td><strong>Contribution per rescue</strong></td><td class="num"><strong>₹31.60 (~64%)</strong></td><td></td></tr>
-</tbody>
-</table>
-
-<p>Per active user monthly (Phase 1, 1 rescue/month average): revenue ₹49, contribution ₹31.60.</p>
-
-<p>Payback on ₹1,000 CAC at ₹31.60 contribution: <strong>~32 months.</strong> That is honestly long. The plan only becomes a real business if two things happen. First, the referral loop drops blended CAC below ₹300 by day 90 (target: 2.5 signups per activated user, tracked as a Week-8 KPI). Second, rescues per user climb to 2 per month by month 6, revenue to ₹98, contribution to ₹63, and payback compresses to ~16 months. The third lever is Phase 3: the card partnership adds a ₹19/month carrying fee plus 0.5% interchange on offline card use, bringing per-user contribution up by ₹25–40 and payback under 10 months. That is the seed-stage story.</p>
-</section>
-
-<!-- =========================== PAGE 5: RISKS + REGULATORY =========================== -->
-<section class="section">
-<h2>Top 5 risks and how I will handle them</h2>
-
-<h3>Risk 1 — Nobody signs up because the concierge is too weird for the cohort to trust.</h3>
-<p>Contingency. Weeks 1–4 are positioned as a MICA-only closed beta, with a public list of the first 20 signed-up classmates on the landing page by end of Week 4 as social proof. If signups are below 20 by day 30, I sunset the WhatsApp funnel and pivot to a manual insurance model: pay ₹49 into a group pool, get bailed out from the pool by any other member when you actually need help. That is a peer-to-peer version of the same product, uses zero external rails, and lets me learn whether the trust barrier is with EmerGent or with the concept itself.</p>
-
-<h3>Risk 2 — Signups don't convert into rescues, so we can't learn if the product works.</h3>
-<p>Contingency. Mandatory 30-second dry run is already in the onboarding flow. On day 7 post-signup, the bot proactively nudges users with a ₹10 rescue coupon for a real transaction. If activation is still below 30% at day 30, I add a one-time reverse-onboarding incentive (₹100 credit for their next rescue if they use it within 14 days).</p>
-
-<h3>Risk 3 — RBI / NPCI regulatory red flag on payment intermediation.</h3>
-<p>Payment intermediation without a PA/PPI license is a grey area at scale. Phase 1–2 posture is a consenting-user private pilot with total monthly volumes capped at ₹1 lakh, full user disclosure that this is a founder-run beta, and honor-system settlement rather than eNACH auto-debit until a partner bank is in the picture. In parallel, I begin cold LinkedIn outreach in Week 1 to five banks with documented fintech-BAAS plays: <strong>SBM Bank India</strong> (primary, powers Slice/Fi/Jupiter/EarlySalary, dedicated fintech-partnerships team, ~₹15,000cr book that a founder can plausibly break into), <strong>YES Bank iPay/BaaS</strong> (secondary, post-restructuring fintech-friendly, powers Cred + Turtlemint), <strong>Airtel Payments Bank</strong> (specific-fit for the offline-card story, has the NCMC RuPay card already live at Delhi Metro and Namma Metro), <strong>Federal Bank BaaS</strong> (powers Fi and Freo), and <strong>RBL Bank Fintech Partnerships</strong> (larger, slower, but proven via OneCard). Selected because each has a documented BAAS play with fintech partners in the ₹15k–₹110k cr book range, which is the band a pre-Series-A founder can plausibly cold-outreach without prior warm intros. Realistic 90-day KPI (revised from a term sheet): one substantive conversation with a fintech-partnerships manager, written follow-up received.</p>
-
-<h3>Risk 4 — Float exhaustion or user default.</h3>
-<p>The float pool starts at ₹5,000 of my own money and scales with activation. Contingency has three parts. Mandatory eNACH mandate at signup with T+72 auto-debit if the user does not accept the T+24 collect request. Hard velocity cap of 3 rescues per user per 30 days for Phase 1 (raised to 5 in Phase 2 with proven repayment behaviour). Amount cap of ₹2,000 per rescue in Phase 1. Any user who defaults on settlement is suspended, with a manual review for reinstatement.</p>
-
-<h3>Risk 5 — NPCI ships UPI Lite X consumer rollout ahead of schedule.</h3>
-<p>The mid-term identified this as the largest structural risk to the whole opportunity. Even at a full 2026 rollout, u/yogthinks's public critique holds: the offline caps (₹500 per transaction, ₹4,000 daily) leave the ₹500–₹2,000 transaction band uncovered. EmerGent focuses there. Longer-term contingency: pivot the Phase 4 app to become the layer above UPI Lite X — an app that surfaces the user's UPI Lite X balance, auto-tops it up when the daily rail fails, and offers the concierge for anything above the ₹500 cap. That positions EmerGent as complementary to the regulator's rail, not competitive.</p>
-
-<h2>Regulatory posture I will defend if asked</h2>
-<p>Two-track. Phase 1–2 operates as a private consenting-user beta with capped monthly volume (₹1L), no eNACH auto-debit, no PPI issuance, no marketing claim of being a licensed payment intermediary. Phase 3 shifts to a licensed PA/PPI model through a partner bank (SBM primary, YES/Airtel/Federal secondary). By day 90 the honest realistic target is one substantive fintech-partnerships conversation initiated with written follow-up. A term sheet is 6–8 months out under the best case, and any plan claiming otherwise for a student with no prior finance intros is unserious. If cold outreach yields zero engagement by day 60, I revise scope to a strictly peer-to-peer settlement product (no float pool at EmerGent's end) that removes the intermediation question entirely.</p>
-</section>
-
-<!-- =========================== PAGE 6: KPIs + MEASURABLE OUTCOMES =========================== -->
-<section class="section">
-<h2>KPIs and measurable 90-day outcomes</h2>
-
-<p>Five KPIs, all measurable, tracked weekly in a public dashboard shared with the batch:</p>
-
-<table>
-<thead><tr><th>#</th><th>KPI</th><th>Day 30</th><th>Day 60</th><th>Day 90</th><th>Definition</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>Activated users</td><td class="num">3</td><td class="num">6</td><td class="num"><strong>10</strong></td><td>Completed onboarding + at least one rescue or test-rescue in the last 30 days</td></tr>
-<tr><td>2</td><td>Rescue completion rate</td><td class="num">70%</td><td class="num">80%</td><td class="num">90%</td><td>% of rescue requests fulfilled successfully within the target latency</td></tr>
-<tr><td>3</td><td>Median rescue latency</td><td class="num">120s</td><td class="num">75s</td><td class="num">45s</td><td>WhatsApp receipt to merchant confirmation SMS</td></tr>
-<tr><td>4</td><td>Bank conversation depth</td><td>0</td><td>1 first-touch</td><td>1 substantive + written follow-up</td><td>Real substance: PM/product-partnerships lead, not a form response</td></tr>
-<tr><td>5</td><td>Blended CAC + Post-rescue NPS</td><td class="num">CAC ₹500</td><td class="num">CAC ₹700, NPS 30</td><td class="num">CAC ₹1,000, NPS 40</td><td>NPS via WhatsApp 1-question survey after each rescue</td></tr>
-</tbody>
-</table>
-
-<p>Sean Ellis PMF signal (the "how would you feel if you could no longer use this product" 40% test) is a stretch target for day 90 — with 10 users, 4 saying "very disappointed" is a signal, not proof. But it is the number the next phase's investor conversation will ask for, so I track it.</p>
-
-<h2>Secondary signals I will report even without a KPI target</h2>
-<p>Because the mid-term said EmerGent's moat is behavioural data on failure moments, I track and publish four cohort-level signals from day 1. Time-of-day distribution of rescues, which builds the first proprietary failure graph in the country. Merchant category distribution across rescues (petrol, food, kirana, transport). City comparison — Ahmedabad vs BLR vs Delhi rescues per active user per week. And rescue-to-referral rate: the percentage of rescued users who then refer at least one friend within 7 days. That number is the leading indicator for the referral loop economics on page 4.</p>
-
-<h2>Measurable 90-day outcomes summary</h2>
-<ol>
-<li>10 activated paying users (or a floor of 6 activated + 20 signups on the waitlist if the funnel underperforms).</li>
-<li>60+ event data points logged in a public rescue log, forming the first month of the proprietary failure dataset.</li>
-<li>Median rescue latency under 60 seconds (matching the promised time on the landing page).</li>
-<li>At least one partner-bank conversation with a written scope document exchanged, tracking toward a term sheet.</li>
-<li>A Phase 3 pitch deck for the card partnership + Series-seed narrative built, ready by end of Week 12.</li>
-</ol>
-
-<h2>What "success" and "failure" look like at day 90</h2>
-<p>Success: 10 activated users, 30+ rescues/week, median latency under 60s, NPS 40+, one bank in conversation. Green light for Phase 3 card work and a seed pre-seed round of ₹25L.</p>
-<p>Failure: fewer than 5 activated by day 60, activation rate below 15%, no bank in conversation, NPS negative. Then I sunset EmerGent, publish the postmortem on the public rescue log, and rewrite the plan around the peer-to-peer pool pivot (Risk 1 contingency).</p>
-</section>
-
-<!-- =========================== PAGE 7: 90-DAY ROADMAP =========================== -->
-<section class="section">
-<h2>90-day roadmap, week by week</h2>
-
-<h3>Weeks 1–2 — MVP live and hand-fulfilled</h3>
-<ul>
-<li>Register the WhatsApp Business number. Green-tick application submitted (Meta approval realistically 4–6 weeks; not a blocker).</li>
-<li>Landing page live on Vercel free tier: <strong>getemergent.in</strong> (₹700 for a year on .in). Framer template, one-page copy.</li>
-<li>WhatsApp onboarding via Bolt.new + Twilio webhook. Phase 1 light: phone + name + trusted friend UPI only. Aadhaar and eNACH deferred to Phase 2.</li>
-<li>Google Sheet ledger, columns: user, timestamp, merchant, amount, latency, agent notes.</li>
-<li>Personal UPI ID as the float pool. ₹5,000 seeded from my account. Second UPI ID kept warm as backup for the rescue-failure playbook.</li>
-<li>30-second dry-run script tested with 3 friends.</li>
-<li>Escalation contact identified: one MICA alumni willing to be on-call for after-hours critical rescues (paid ₹500 for the 90 days as retainer).</li>
-<li>Cold LinkedIn outreach to fintech-partnerships managers at SBM, YES, Airtel Payments, Federal, RBL. 30 messages/week from Week 1.</li>
-</ul>
-
-<h3>Weeks 3–4 — Ahmedabad launch and campus concierge</h3>
-<ul>
-<li>Personal WhatsApp outreach to 100 known contacts across three MICA batches.</li>
-<li>Instagram post from personal handle + 3 friends' handles.</li>
-<li>Sticker drop at 3 hostels + canteen, 300 stickers total.</li>
-<li>WhatsApp broadcast to the MICA batch group (with permission from the admin).</li>
-<li>Target end-of-Week-4: 50 signups, 20 dry-runs, <strong>3 activated users, 5+ real rescues logged.</strong></li>
-</ul>
-
-<h3>Weeks 5–6 — Bangalore intern wave begins</h3>
-<ul>
-<li>Identify 5 BLR-going interns as micro-ambassadors, give them free lifetime EmerGent in exchange for 5 referrals each.</li>
-<li>BLR-specific Instagram creative live.</li>
-<li>A/B landing pages built (subscription vs pay-per-rescue).</li>
-<li>Reddit r/bangalore organic post (framed as MICA student project).</li>
-<li>Meta ad experiment begins with ₹1,500 budget targeted at Bangalore ages 22–32.</li>
-<li>Target cumulative: <strong>6 activated users.</strong></li>
-</ul>
-
-<h3>Weeks 7–8 — Consolidate BLR + bank outreach ramps</h3>
-<ul>
-<li>Cold LinkedIn outreach expanded to 60 messages/week across founder + 3 alumni.</li>
-<li>Pricing model locked based on A/B result.</li>
-<li>Second Ahmedabad wave activated via referral of first 10 signups.</li>
-<li>First-in-person meeting attempted with at least one bank product manager (BLR-based, likely target: RBL Prepaid team).</li>
-<li>Target cumulative: <strong>8 activated users, one bank meeting on the calendar.</strong></li>
-</ul>
-
-<h3>Weeks 9–10 — Delhi placement wave (virtual-first)</h3>
-<ul>
-<li>Delhi-specific creative live: <em>"Your Metro card is fine. Your SIM might not be."</em></li>
-<li>Instagram Live sessions with Divya and Rahul as guest voices, one per week.</li>
-<li>Reddit r/delhi and r/personalfinanceindia organic posts, framed as a MICA student project.</li>
-<li>Delhi trip is contingent, not planned: ₹2,000 flight from remaining budget only if the previous eight weeks have gone to plan. Otherwise the whole wave runs on WhatsApp video + LinkedIn DMs.</li>
-<li>Target cumulative: <strong>9 activated users.</strong></li>
-</ul>
-
-<h3>Weeks 11–12 — Close out, consolidate, prepare Phase 3</h3>
-<ul>
-<li>Founder personal outreach to close the 10th customer.</li>
-<li>Bank partnership meetings (from Week 8 outreach) — target: written scope document exchanged.</li>
-<li>90-day retrospective + public KPI dashboard published.</li>
-<li>Phase 3 card partnership pitch deck built.</li>
-<li>Postmortem paragraph on what worked and what didn't, submitted to the batch group.</li>
-<li>Target: <strong>10 activated users, 30 weekly rescues, NPS 40+, one bank in written conversation.</strong></li>
-</ul>
-
-<h2>Phase 4 (post-day-90) preview: the app and the moat</h2>
-<p>The 90 days above buys the right to build the Phase 4 app. That app is where the defensible moat compounds: SMS Read permission to auto-detect UPI failure SMSes from banks, Notification Listener to detect GPay/PhonePe failure toasts in-context, Foreground Service to survive Android power management, Background Location for fraud scoring, Biometric per rescue, and Bluetooth for peer-to-peer settlement. Users of a daily payment app will not grant SMS Read to GPay or PhonePe; users of an emergency-only app will. That permission gap is the direct moat against the incumbents, and it is only earnable after 90 days of concierge trust-building.</p>
-</section>
-
-<!-- =========================== PAGE 8: MOAT + APPENDIX =========================== -->
-<section class="section">
-<h2>Moat and defensibility, in one place</h2>
-
-<p>Three moats compound over the 90 days and the first 12 months, in this order.</p>
-
-<h3>1. Behavioural data on failure moments</h3>
-<p>The daily-use apps instrument the happy path. EmerGent's product is the failure moment, so every rescue is proprietary data on when, where, at what merchant category, and at what amount UPI payments actually fail. Over 12 months this becomes the only "failure graph" of Indian retail payments — and it is sellable data to banks doing fraud modelling, insurers pricing coverage, and NPCI itself doing capacity planning. Unfair to reproduce without EmerGent's usage pattern.</p>
-
-<h3>2. Trust anchor built through voluntary friction</h3>
-<p>Aadhaar + eNACH + trusted-friend UPI is deliberately more onboarding friction than any daily app would tolerate. GPay could technically add all of it, but the daily-use funnel would collapse. EmerGent's onboarding IS the friction, which self-selects for high-trust users — the segment banks want. Anti-selection lock-in: the moment EmerGent's users are labelled as "the high-trust cohort," banks want to underwrite them, and that gives EmerGent a long-term revenue line from partnership fees.</p>
-
-<h3>3. Off-app trigger surface</h3>
-<p>Sticker on the phone case. Physical NCMC card in the wallet. "EmerGent SOS" saved as a phone contact. SMS shortcode as a Phase 2 addition. This is distribution real estate GPay will not build because it dilutes the daily brand, and it is exactly the surface a user reaches for when the daily app is failing. EmerGent lives in the parts of the phone's life that GPay refuses to touch.</p>
-
-<h2>Appendix A — Sources reused from the mid-term</h2>
-<p>The customer problem, cohort sizing, outage timeline, regulator posture and digital ethnography (teamblind Apr 4 2025, Bengaluru pani-puri comment, u/mrdrinksonme 303-upvote non-consumption comment, u/yogthinks UPI Lite X caps critique) are all in <em>research/sources.md</em> and <em>research/pasted_sources.md</em> of the mid-term submission. This report does not re-cite them; every underlying claim traces back through those files.</p>
-
-<h2>Appendix B — First 10 named pipeline (illustrative persona composites; consented names on submission)</h2>
-<table>
-<thead><tr><th>#</th><th>Name</th><th>Context</th><th>Channel</th><th>Trust anchor</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>Ravi Krishnan</td><td>24, PGDM-C, Chennai. SIM died at CEPT chai stall Apr 2025.</td><td>Direct WhatsApp</td><td>Roommate is my classmate</td></tr>
-<tr><td>2</td><td>Aanya Malhotra</td><td>23, PGDM-C, Delhi. Batch-group complaint on Vastrapur GPay failure.</td><td>Instagram</td><td>Publicly named the pain</td></tr>
-<tr><td>3</td><td>Priya Shah</td><td>25, PGDM-B, Ahmedabad local.</td><td>Canteen sticker</td><td>Sees me daily</td></tr>
-<tr><td>4</td><td>Sarthak Joshi</td><td>24, PGDM-C, Pune. First to Instagram-story Apr 2025 UPI outage.</td><td>Direct WhatsApp</td><td>Public fintech opinions</td></tr>
-<tr><td>5</td><td>Naveen Bhatt</td><td>25, PGDM-C, Cred intern BLR. Lost SIM at Silk Board.</td><td>Alumni referral</td><td>Works at Cred, will critique + champion</td></tr>
-<tr><td>6</td><td>Anushka Gupta</td><td>24, PGDM-C, Razorpay ops intern BLR.</td><td>Alumni referral</td><td>Professional interest</td></tr>
-<tr><td>7</td><td>Karthik Venkat</td><td>25, PGDM-B, Diageo Whitefield intern.</td><td>BLR Instagram + DM</td><td>Fresh-to-city vulnerability</td></tr>
-<tr><td>8</td><td>Jayanti Mishra</td><td>26, PGDM-B, Ogilvy Delhi placed. Aunt stranded at AIIMS Metro.</td><td>Placement WhatsApp</td><td>Family stakes</td></tr>
-<tr><td>9</td><td>Divya Tandon</td><td>25, PGDM-C, Havas Delhi placed. Instagram complaint on Feb 2025 Airtel outage.</td><td>Reddit + LinkedIn</td><td>Public complaint is the signal</td></tr>
-<tr><td>10</td><td>Rahul Sethi</td><td>26, PGDM-B, DBS Bank Delhi placed.</td><td>Face-to-face or WhatsApp video</td><td>High-value professional endorsement</td></tr>
-</tbody>
-</table>
-<p>Buffer: Mansi Patel (Ahmedabad marketing) and Yash Kapoor (TCS Mumbai remote). Illustrative composites reflecting the real cohort I can reach through my WhatsApp groups and second-degree network; consented names replace them on submission.</p>
-</section>
+<p>Every claim about the underlying problem — cohort sizing, outage timelines, regulator posture, digital ethnography including the teamblind and Reddit quotes and u/yogthinks's critique of UPI Lite X — is traceable through <em>research/sources.md</em> and <em>research/pasted_sources.md</em>, which sit alongside the mid-term submission.</p>
 
 </body>
 </html>
